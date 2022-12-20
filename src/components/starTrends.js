@@ -8,6 +8,7 @@ import {
     Title,
     Tooltip,
 } from 'chart.js';
+import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import { GITHUB_COUNT_LIMIT, MAX_REQUEST_AMOUNT } from '../constants';
@@ -40,6 +41,7 @@ const StarTrends = ({ repos }) => {
             return {
                 full_name,
                 pages,
+                stargazers_count,
             };
         });
 
@@ -63,23 +65,30 @@ const StarTrends = ({ repos }) => {
                 );
             })
         ).then((dates) => {
-            const labels = dates[0];
+            let labels;
             let datasets = [];
 
             for (let i = 0; i < repos.length; i++) {
-                const { full_name, pages } = transformedRepos[i];
+                const { full_name, pages, stargazers_count } =
+                    transformedRepos[i];
+
+                const res = getLabelsAndDataBy(
+                    dates[0],
+                    pages,
+                    stargazers_count
+                );
+
+                // TODO:
+                labels = res.labels;
+
                 datasets.push({
                     label: full_name,
-                    data: pages,
+                    data: res.data,
+                    spanGaps: true,
                     borderColor: 'rgb(255, 99, 132)',
                     backgroundColor: 'rgba(255, 99, 132, 0.5)',
                 });
             }
-
-            console.log({
-                labels,
-                datasets,
-            });
 
             setData({
                 labels,
@@ -122,6 +131,38 @@ function getPagesBy(stargazersCount) {
     }
 
     return res;
+}
+
+function getLabelsAndDataBy(dates, pages, stargazers_count) {
+    const DATE_FORMAT = 'YYYY-MM';
+    const monthDates = dates.map((date) => dayjs(date).format(DATE_FORMAT));
+    const firstDate = monthDates[0];
+    const totalMonths = dayjs().diff(firstDate, 'month');
+
+    const labels = [];
+    const data = [];
+    let currentDate = firstDate;
+
+    for (let i = 0; i < totalMonths; i++) {
+        labels.push(currentDate);
+
+        if (monthDates.includes(currentDate)) {
+            const index = monthDates.indexOf(currentDate);
+            data.push(pages[index]);
+        } else {
+            data.push(null);
+        }
+
+        currentDate = dayjs(currentDate).add(1, 'month').format(DATE_FORMAT);
+    }
+
+    labels.push(dayjs().format(DATE_FORMAT));
+    data.push(stargazers_count);
+
+    return {
+        labels,
+        data,
+    };
 }
 
 export default StarTrends;
