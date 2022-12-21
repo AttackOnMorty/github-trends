@@ -13,8 +13,8 @@ import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
 
+import { getStargazerFirstStaredAt } from '../api';
 import { GITHUB_COUNT_LIMIT, MAX_REQUEST_AMOUNT } from '../constants';
-import octokit from '../utils/octokit';
 
 ChartJS.register(
     CategoryScale,
@@ -75,13 +75,13 @@ const StarTrends = ({ repos }) => {
 };
 
 function transformRepo(repo) {
-    const { full_name, stargazers_count } = repo;
-    const pages = getPagesBy(stargazers_count);
+    const { fullName, stargazersCount } = repo;
+    const pages = getPagesBy(stargazersCount);
 
     return {
-        full_name,
+        fullName,
         pages,
-        stargazers_count,
+        stargazersCount,
     };
 
     function getPagesBy(stargazersCount) {
@@ -105,26 +105,17 @@ function transformRepo(repo) {
     }
 }
 
-function getDate({ full_name, pages }) {
-    const [owner, repo] = full_name.split('/');
+function getDate({ fullName, pages }) {
+    const [owner, repo] = fullName.split('/');
     return Promise.all(
-        pages.map((page) =>
-            octokit
-                .request('GET /repos/{owner}/{repo}/stargazers', {
-                    headers: {
-                        accept: 'application/vnd.github.star+json',
-                    },
-                    owner,
-                    repo,
-                    per_page: 1,
-                    page,
-                })
-                .then((res) => res.data[0].starred_at)
+        pages.map(
+            async (page) =>
+                await getStargazerFirstStaredAt({ owner, repo, page })
         )
     );
 }
 
-function getDataBy(dates, transformedRepos) {
+function getDataBy(dates, repos) {
     const DATE_FORMAT = 'YYYY-MM';
     const transformedDates = dates.map((dateList) =>
         dateList.map((date) => dayjs(date).format(DATE_FORMAT))
@@ -136,20 +127,20 @@ function getDataBy(dates, transformedRepos) {
     let labels;
     let datasets = [];
 
-    for (let i = 0; i < transformedRepos.length; i++) {
-        const { full_name, pages, stargazers_count } = transformedRepos[i];
+    for (let i = 0; i < repos.length; i++) {
+        const { fullName, pages, stargazersCount } = repos[i];
 
         const res = getLabelsAndDataBy(
             minDate,
             transformedDates[i],
             pages,
-            stargazers_count
+            stargazersCount
         );
 
         labels = res.labels;
 
         datasets.push({
-            label: full_name,
+            label: fullName,
             data: res.data,
             spanGaps: true,
         });
@@ -160,7 +151,7 @@ function getDataBy(dates, transformedRepos) {
         datasets,
     };
 
-    function getLabelsAndDataBy(minDate, dates, pages, stargazers_count) {
+    function getLabelsAndDataBy(minDate, dates, pages, stargazersCount) {
         const totalMonths = dayjs().diff(minDate, 'month');
 
         const labels = [];
@@ -183,7 +174,7 @@ function getDataBy(dates, transformedRepos) {
         }
 
         labels.push(dayjs().format(DATE_FORMAT));
-        data.push(stargazers_count);
+        data.push(stargazersCount);
 
         return {
             labels,
