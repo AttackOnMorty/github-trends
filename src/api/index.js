@@ -11,7 +11,7 @@ export const getRepositories = async (value) => {
 
     return res.data.items.map((item) => ({
         fullName: item.full_name,
-        stargazersCount: item.stargazers_count,
+        currentStars: item.stargazers_count,
     }));
 };
 

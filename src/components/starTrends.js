@@ -75,23 +75,23 @@ const StarTrends = ({ repos }) => {
 };
 
 function transformRepo(repo) {
-    const { fullName, stargazersCount } = repo;
-    const pages = getPagesBy(stargazersCount);
+    const { fullName, currentStars } = repo;
+    const pages = getPagesBy(currentStars);
 
     return {
         fullName,
         pages,
-        stargazersCount,
+        currentStars,
     };
 
-    function getPagesBy(stargazersCount) {
+    function getPagesBy(currentStars) {
         const res = [];
         let index = 1;
 
         const count =
-            stargazersCount > GITHUB_COUNT_LIMIT
+            currentStars > GITHUB_COUNT_LIMIT
                 ? GITHUB_COUNT_LIMIT
-                : stargazersCount;
+                : currentStars;
         const interval = Math.floor(count / MAX_REQUEST_AMOUNT);
 
         res.push(index);
@@ -123,63 +123,64 @@ function getDataBy(dates, repos) {
     const minDate = dayjs
         .min(transformedDates.map((dates) => dayjs(dates[0])))
         .format(DATE_FORMAT);
+    const totalMonths = dayjs().diff(minDate, 'month');
 
-    let labels;
-    let datasets = [];
-
-    for (let i = 0; i < repos.length; i++) {
-        const { fullName, pages, stargazersCount } = repos[i];
-
-        const res = getLabelsAndDataBy(
-            minDate,
-            transformedDates[i],
-            pages,
-            stargazersCount
-        );
-
-        labels = res.labels;
-
-        datasets.push({
-            label: fullName,
-            data: res.data,
-            spanGaps: true,
-        });
-    }
+    const labels = getLabels();
+    const datasets = getDatasetsBy(repos, transformedDates);
 
     return {
         labels,
         datasets,
     };
 
-    function getLabelsAndDataBy(minDate, dates, pages, stargazersCount) {
-        const totalMonths = dayjs().diff(minDate, 'month');
+    function getLabels() {
+        const res = [];
 
-        const labels = [];
-        const data = [];
-        let currentDate = minDate;
-
+        let current = minDate;
         for (let i = 0; i < totalMonths; i++) {
-            labels.push(currentDate);
-
-            if (dates.includes(currentDate)) {
-                const index = dates.indexOf(currentDate);
-                data.push(pages[index]);
-            } else {
-                data.push(null);
-            }
-
-            currentDate = dayjs(currentDate)
-                .add(1, 'month')
-                .format(DATE_FORMAT);
+            res.push(current);
+            current = dayjs(current).add(1, 'month').format(DATE_FORMAT);
         }
 
-        labels.push(dayjs().format(DATE_FORMAT));
-        data.push(stargazersCount);
+        res.push(dayjs().format(DATE_FORMAT));
 
-        return {
-            labels,
-            data,
-        };
+        return res;
+    }
+
+    function getDatasetsBy(repos, dates) {
+        const res = [];
+
+        for (let i = 0; i < repos.length; i++) {
+            const { fullName: label, pages: stars, currentStars } = repos[i];
+            const data = getDataBy(dates[i], stars, currentStars);
+
+            res.push({
+                label,
+                data,
+                spanGaps: true,
+            });
+        }
+
+        return res;
+    }
+
+    function getDataBy(dates, stars, currentStars) {
+        const res = [];
+
+        let current = minDate;
+        for (let i = 0; i < totalMonths; i++) {
+            if (dates.includes(current)) {
+                const index = dates.indexOf(current);
+                res.push(stars[index]);
+            } else {
+                res.push(null);
+            }
+            current = dayjs(current).add(1, 'month').format(DATE_FORMAT);
+        }
+
+        res.push(currentStars);
+
+        return res;
     }
 }
 

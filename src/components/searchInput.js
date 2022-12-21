@@ -25,10 +25,10 @@ const fetch = (value, setData, allData, setAllData, setFetching) => {
         const res = await getRepositories(value);
 
         if (currentValue === value) {
-            const data = res.map(({ fullName, stargazersCount }) => ({
+            const data = res.map(({ fullName, currentStars }) => ({
                 value: fullName,
                 text: fullName,
-                stargazersCount,
+                currentStars,
             }));
             setData(data);
             setAllData([...allData, ...data]);
@@ -51,9 +51,8 @@ const SearchInput = ({ placeholder, style, repos, setRepos }) => {
     const handleChange = (newValue) => {
         const repos = newValue.map((fullName) => ({
             fullName,
-            stargazersCount: allData.filter(
-                ({ value }) => value === fullName
-            )[0].stargazersCount,
+            currentStars: allData.filter(({ value }) => value === fullName)[0]
+                .currentStars,
         }));
         setRepos(repos);
     };
