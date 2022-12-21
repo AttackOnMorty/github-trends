@@ -1,6 +1,7 @@
 import {
     CategoryScale,
     Chart as ChartJS,
+    Colors,
     Legend,
     LinearScale,
     LineElement,
@@ -11,19 +12,49 @@ import {
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
-import { GITHUB_COUNT_LIMIT, MAX_REQUEST_AMOUNT } from '../constants';
 
+import { GITHUB_COUNT_LIMIT, MAX_REQUEST_AMOUNT } from '../constants';
 import octokit from '../utils/octokit';
 
 ChartJS.register(
     CategoryScale,
+    Colors,
+    Legend,
     LinearScale,
-    PointElement,
     LineElement,
+    PointElement,
     Title,
-    Tooltip,
-    Legend
+    Tooltip
 );
+
+const options = {
+    responsive: true,
+    scales: {
+        y: {
+            ticks: {
+                callback: function (value, index, ticks) {
+                    console.log(value, index, ticks);
+                    return value === 0 ? 0 : value / 1000 + 'k';
+                },
+            },
+        },
+    },
+    plugins: {
+        legend: {
+            position: 'top',
+            labels: {
+                usePointStyle: true,
+            },
+        },
+        title: {
+            display: true,
+            text: 'Star Trends',
+        },
+        colors: {
+            forceOverride: true,
+        },
+    },
+};
 
 const StarTrends = ({ repos }) => {
     const [data, setData] = useState();
@@ -40,19 +71,6 @@ const StarTrends = ({ repos }) => {
             setData(getDataBy(dates, transformedRepos))
         );
     }, [repos]);
-
-    const options = {
-        responsive: true,
-        plugins: {
-            legend: {
-                position: 'top',
-            },
-            title: {
-                display: true,
-                text: 'Star Trends',
-            },
-        },
-    };
 
     return <div>{data && <Line options={options} data={data} />}</div>;
 };
@@ -108,23 +126,33 @@ function getDate({ full_name, pages }) {
 }
 
 function getDataBy(dates, transformedRepos) {
+    const DATE_FORMAT = 'YYYY-MM';
+    const transformedDates = dates.map((dateList) =>
+        dateList.map((date) => dayjs(date).format(DATE_FORMAT))
+    );
+    const minDate = dayjs
+        .min(transformedDates.map((dates) => dayjs(dates[0])))
+        .format(DATE_FORMAT);
+
     let labels;
     let datasets = [];
 
     for (let i = 0; i < transformedRepos.length; i++) {
         const { full_name, pages, stargazers_count } = transformedRepos[i];
 
-        const res = getLabelsAndDataBy(dates[0], pages, stargazers_count);
+        const res = getLabelsAndDataBy(
+            minDate,
+            transformedDates[i],
+            pages,
+            stargazers_count
+        );
 
-        // TODO:
         labels = res.labels;
 
         datasets.push({
             label: full_name,
             data: res.data,
             spanGaps: true,
-            borderColor: 'rgb(255, 99, 132)',
-            backgroundColor: 'rgba(255, 99, 132, 0.5)',
         });
     }
 
@@ -133,21 +161,18 @@ function getDataBy(dates, transformedRepos) {
         datasets,
     };
 
-    function getLabelsAndDataBy(dates, pages, stargazers_count) {
-        const DATE_FORMAT = 'YYYY-MM';
-        const monthDates = dates.map((date) => dayjs(date).format(DATE_FORMAT));
-        const firstDate = monthDates[0];
-        const totalMonths = dayjs().diff(firstDate, 'month');
+    function getLabelsAndDataBy(minDate, dates, pages, stargazers_count) {
+        const totalMonths = dayjs().diff(minDate, 'month');
 
         const labels = [];
         const data = [];
-        let currentDate = firstDate;
+        let currentDate = minDate;
 
         for (let i = 0; i < totalMonths; i++) {
             labels.push(currentDate);
 
-            if (monthDates.includes(currentDate)) {
-                const index = monthDates.indexOf(currentDate);
+            if (dates.includes(currentDate)) {
+                const index = dates.indexOf(currentDate);
                 data.push(pages[index]);
             } else {
                 data.push(null);
