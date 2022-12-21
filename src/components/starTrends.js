@@ -33,7 +33,6 @@ const options = {
         y: {
             ticks: {
                 callback: function (value, index, ticks) {
-                    console.log(value, index, ticks);
                     return value === 0 ? 0 : value / 1000 + 'k';
                 },
             },

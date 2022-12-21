@@ -1,4 +1,4 @@
-import { Select } from 'antd';
+import { Select, Spin } from 'antd';
 import { useState } from 'react';
 
 import octokit from '../utils/octokit';
@@ -6,7 +6,9 @@ import octokit from '../utils/octokit';
 let timeout;
 let currentValue;
 
-const fetch = (value, setData, allData, setAllData) => {
+const fetch = (value, setData, allData, setAllData, setFetching) => {
+    setData([]);
+
     if (timeout) {
         clearTimeout(timeout);
         timeout = null;
@@ -15,6 +17,11 @@ const fetch = (value, setData, allData, setAllData) => {
     currentValue = value;
 
     const getRepoList = async () => {
+        if (value === '') {
+            return;
+        }
+
+        setFetching(true);
         const res = await octokit.request('GET /search/repositories{?q}', {
             q: value,
         });
@@ -30,21 +37,19 @@ const fetch = (value, setData, allData, setAllData) => {
             setData(data);
             setAllData([...allData, ...data]);
         }
+        setFetching(false);
     };
 
-    timeout = setTimeout(getRepoList, 300);
+    timeout = setTimeout(getRepoList, 500);
 };
 
 const SearchInput = ({ placeholder, style, repos, setRepos }) => {
     const [data, setData] = useState([]);
     const [allData, setAllData] = useState([]);
+    const [fetching, setFetching] = useState(false);
 
     const handleSearch = (newValue) => {
-        if (newValue) {
-            fetch(newValue, setData, allData, setAllData);
-        } else {
-            setData([]);
-        }
+        fetch(newValue, setData, allData, setAllData, setFetching);
     };
 
     const handleChange = (newValue) => {
@@ -69,7 +74,7 @@ const SearchInput = ({ placeholder, style, repos, setRepos }) => {
             filterOption={false}
             onSearch={handleSearch}
             onChange={handleChange}
-            notFoundContent={null}
+            notFoundContent={fetching ? <Spin size="small" /> : null}
             options={(data || []).map((d) => ({
                 value: d.value,
                 label: d.text,
