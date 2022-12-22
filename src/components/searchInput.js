@@ -48,8 +48,12 @@ const SearchInput = ({ placeholder, style, repos, setRepos }) => {
         fetch(newValue, setData, allData, setAllData, setFetching);
     };
 
-    const handleChange = (newValue) => {
-        const repos = newValue.map((fullName) => ({
+    const handleChange = (newRepos) => {
+        if (newRepos.length === 0) {
+            setData([]);
+        }
+
+        const repos = newRepos.map((fullName) => ({
             fullName,
             currentStars: allData.filter(({ value }) => value === fullName)[0]
                 .currentStars,
