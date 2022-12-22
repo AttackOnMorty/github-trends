@@ -158,6 +158,7 @@ function getDataBy(dates, repos) {
                 label,
                 data,
                 spanGaps: true,
+                cubicInterpolationMode: 'monotone',
             });
         }
 
