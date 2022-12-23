@@ -6,6 +6,7 @@ import {
     LinearScale,
     LineElement,
     PointElement,
+    TimeScale,
     Title,
     Tooltip,
 } from 'chart.js';
@@ -23,6 +24,7 @@ ChartJS.register(
     LinearScale,
     LineElement,
     PointElement,
+    TimeScale,
     Title,
     Tooltip
 );
@@ -31,6 +33,13 @@ const options = {
     responsive: true,
     maintainAspectRatio: false,
     scales: {
+        x: {
+            type: 'time',
+            time: {
+                unit: 'year',
+                tooltipFormat: 'MMM YYYY',
+            },
+        },
         y: {
             ticks: {
                 callback: function (value, index, ticks) {

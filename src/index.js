@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import 'chartjs-adapter-dayjs-4/dist/chartjs-adapter-dayjs-4.esm';
 
 import App from './App';
 import reportWebVitals from './reportWebVitals';
