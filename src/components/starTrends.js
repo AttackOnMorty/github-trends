@@ -40,18 +40,21 @@ const options = {
         },
     },
     plugins: {
+        title: {
+            display: true,
+            text: '⭐ Stars',
+        },
         legend: {
             position: 'top',
             labels: {
                 usePointStyle: true,
             },
         },
-        title: {
-            display: true,
-            text: 'Star Trends',
-        },
         colors: {
             forceOverride: true,
+        },
+        tooltip: {
+            usePointStyle: true,
         },
     },
 };

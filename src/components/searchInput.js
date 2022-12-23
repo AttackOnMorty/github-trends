@@ -76,7 +76,9 @@ const SearchInput = ({
                 closable={closable}
                 onClose={onClose}
                 style={{
-                    marginRight: 3,
+                    margin: 2,
+                    fontSize: 14,
+                    lineHeight: '26px',
                 }}
             >
                 {label}
@@ -111,6 +113,7 @@ const SearchInput = ({
     return (
         <Select
             mode="multiple"
+            size="large"
             showSearch
             value={value}
             placeholder={placeholder}

@@ -19,7 +19,7 @@ const App = () => {
 
     return (
         <div className="px-14 py-8 flex h-full flex-col">
-            <header className="mb-6 text-3xl font-bold font-sans">
+            <header className="mb-6 text-3xl font-bold font-mono">
                 GitHub Trends
             </header>
             <div className="mb-6">
