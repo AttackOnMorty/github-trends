@@ -49,27 +49,17 @@ const fetch = (value, setData, allData, setAllData, setFetching) => {
     timeout = setTimeout(getRepoList, 500);
 };
 
-const SearchInput = ({ placeholder, style, repos, setRepos }) => {
+const SearchInput = ({
+    placeholder,
+    style,
+    repos,
+    setRepos,
+    debouncedSetRepos,
+}) => {
+    const [value, setValue] = useState([]);
     const [data, setData] = useState([]);
     const [allData, setAllData] = useState([]);
     const [fetching, setFetching] = useState(false);
-
-    const handleSearch = (newValue) => {
-        fetch(newValue, setData, allData, setAllData, setFetching);
-    };
-
-    const handleChange = (newRepos) => {
-        if (newRepos.length === 0) {
-            setData([]);
-        }
-
-        const repos = newRepos.map((fullName) => ({
-            fullName,
-            currentStars: allData.filter(({ value }) => value === fullName)[0]
-                .currentStars,
-        }));
-        setRepos(repos);
-    };
 
     const tagRender = (props) => {
         const { label, value, closable, onClose } = props;
@@ -94,11 +84,35 @@ const SearchInput = ({ placeholder, style, repos, setRepos }) => {
         );
     };
 
+    const handleSearch = (newValue) => {
+        fetch(newValue, setData, allData, setAllData, setFetching);
+    };
+
+    const handleChange = (newValue) => {
+        if (newValue.length === 0) {
+            setData([]);
+        }
+
+        setValue(newValue);
+
+        const mappedRepos = newValue.map((fullName) => ({
+            fullName,
+            currentStars: allData.filter(({ value }) => value === fullName)[0]
+                .currentStars,
+        }));
+
+        if (newValue.length > repos.length) {
+            setRepos(mappedRepos);
+        } else {
+            debouncedSetRepos(mappedRepos);
+        }
+    };
+
     return (
         <Select
             mode="multiple"
             showSearch
-            value={repos.map((repo) => repo.fullName)}
+            value={value}
             placeholder={placeholder}
             style={style}
             defaultActiveFirstOption={false}
