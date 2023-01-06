@@ -3,6 +3,8 @@ import { useState } from 'react';
 
 import { getRepositories } from '../api';
 
+const { Option } = Select;
+
 const COLORS = [
     'rgb(54, 162, 235)',
     'rgb(255, 99, 132)',
@@ -32,14 +34,9 @@ const fetch = (value, setData, allData, setAllData, setFetching) => {
         }
 
         setFetching(true);
-        const res = await getRepositories(value);
+        const data = await getRepositories(value);
 
         if (currentValue === value) {
-            const data = res.map(({ fullName, currentStars }) => ({
-                value: fullName,
-                text: fullName,
-                currentStars,
-            }));
             setData(data);
             setAllData([...allData, ...data]);
         }
@@ -99,8 +96,9 @@ const SearchInput = ({
 
         const mappedRepos = newValue.map((fullName) => ({
             fullName,
-            currentStars: allData.filter(({ value }) => value === fullName)[0]
-                .currentStars,
+            currentStars: allData.filter(
+                (item) => item.fullName === fullName
+            )[0].currentStars,
         }));
 
         if (newValue.length > repos.length) {
@@ -109,6 +107,14 @@ const SearchInput = ({
             debouncedSetRepos(mappedRepos);
         }
     };
+
+    const renderOptions = (data) =>
+        data.map(({ fullName, description }) => (
+            <Option value={fullName} label={fullName}>
+                <div className="font-medium">{fullName}</div>
+                <div className="font-extralight">{description}</div>
+            </Option>
+        ));
 
     return (
         <Select
@@ -125,11 +131,10 @@ const SearchInput = ({
             onSearch={handleSearch}
             onChange={handleChange}
             notFoundContent={fetching ? <Spin size="small" /> : null}
-            options={(data || []).map((d) => ({
-                value: d.value,
-                label: d.text,
-            }))}
-        />
+            optionLabelProp="label"
+        >
+            {renderOptions(data)}
+        </Select>
     );
 };
 

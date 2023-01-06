@@ -9,10 +9,13 @@ export const getRepositories = async (value) => {
         return;
     }
 
-    return res.data.items.map((item) => ({
-        fullName: item.full_name,
-        currentStars: item.stargazers_count,
-    }));
+    return res.data.items.map(
+        ({ full_name, description, stargazers_count }) => ({
+            fullName: full_name,
+            description,
+            currentStars: stargazers_count,
+        })
+    );
 };
 
 export const getStargazerFirstStaredAt = async (options) => {
