@@ -1,3 +1,5 @@
+import { GithubOutlined } from '@ant-design/icons';
+import { Button } from 'antd';
 import _ from 'lodash';
 import { useCallback, useState } from 'react';
 
@@ -18,26 +20,37 @@ const App = () => {
     );
 
     return (
-        <div className="px-14 py-8 flex h-full flex-col">
-            <header className="mb-6 text-3xl font-bold font-mono">
-                GitHub Trends
+        <div className="h-full flex flex-col">
+            <header className="px-14 py-4 flex justify-between">
+                <h1 className="text-2xl font-bold font-mono pointer-events-none">
+                    GitHub Trends
+                </h1>
+                <a
+                    href="https://github.com/AttackOnMorty/github-trends"
+                    target="_black"
+                    rel="noreferrer"
+                >
+                    <Button type="text">
+                        <GithubOutlined className="text-xl" />
+                    </Button>
+                </a>
             </header>
-            <div className="mb-6">
-                <SearchInput
-                    placeholder="Enter a repository name"
-                    style={{
-                        width: '50%',
-                    }}
-                    repos={repos}
-                    setRepos={setRepos}
-                    debouncedSetRepos={debouncedSetRepos}
-                />
-            </div>
-            <div className="flex flex-1">
-                <div className="grid grid-cols-2 grid-rows-2 gap-4 flex-1">
+            <main className="px-14 pb-4 flex flex-col flex-1">
+                <div className="mb-4">
+                    <SearchInput
+                        placeholder="Enter a repository name"
+                        style={{
+                            width: '50%',
+                        }}
+                        repos={repos}
+                        setRepos={setRepos}
+                        debouncedSetRepos={debouncedSetRepos}
+                    />
+                </div>
+                <div className="grid grid-cols-1 grid-rows-2 gap-4 flex-1">
                     <StarTrends repos={repos} />
                 </div>
-            </div>
+            </main>
         </div>
     );
 };
