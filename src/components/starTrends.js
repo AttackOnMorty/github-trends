@@ -148,8 +148,8 @@ function getDataBy(dates, repos) {
 
     function getLabels() {
         const res = [];
-
         let current = minDate;
+
         for (let i = 0; i < totalMonths; i++) {
             res.push(current);
             current = dayjs(current).add(1, 'month').format(DATE_FORMAT);
@@ -180,8 +180,8 @@ function getDataBy(dates, repos) {
 
     function getDataBy(dates, stars, currentStars) {
         const res = [];
-
         let current = minDate;
+
         for (let i = 0; i < totalMonths; i++) {
             if (dates.includes(current)) {
                 const index = dates.indexOf(current);

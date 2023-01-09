@@ -3,6 +3,7 @@ import { Button } from 'antd';
 import _ from 'lodash';
 import { useCallback, useState } from 'react';
 
+import CommitTrends from './components/commitTrends';
 import SearchInput from './components/searchInput';
 import StarTrends from './components/starTrends';
 
@@ -49,6 +50,7 @@ const App = () => {
                 </div>
                 <div className="grid grid-cols-1 grid-rows-2 gap-4 flex-1">
                     <StarTrends repos={repos} />
+                    <CommitTrends repos={repos} />
                 </div>
             </main>
         </div>

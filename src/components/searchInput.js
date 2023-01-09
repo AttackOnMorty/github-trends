@@ -110,7 +110,7 @@ const SearchInput = ({
 
     const renderOptions = (data) =>
         data.map(({ fullName, description }) => (
-            <Option value={fullName} label={fullName}>
+            <Option key={fullName} value={fullName} label={fullName}>
                 <div className="font-medium">{fullName}</div>
                 <div className="font-extralight">{description}</div>
             </Option>

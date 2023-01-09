@@ -10,7 +10,9 @@ import './index.css';
 
 // TODO: Why can't use import?
 const minMax = require('dayjs/plugin/minMax');
+const weekday = require('dayjs/plugin/weekday');
 dayjs.extend(minMax);
+dayjs.extend(weekday);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

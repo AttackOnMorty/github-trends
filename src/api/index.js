@@ -36,3 +36,20 @@ export const getStargazerFirstStaredAt = async (options) => {
 
     return res.data[0].starred_at;
 };
+
+export const getCommitCountWeekly = async (options) => {
+    const { owner, repo } = options;
+    const res = await octokit.request(
+        'GET /repos/{owner}/{repo}/stats/participation',
+        {
+            owner,
+            repo,
+        }
+    );
+
+    if (res.status !== 200) {
+        return;
+    }
+
+    return res.data.all;
+};
