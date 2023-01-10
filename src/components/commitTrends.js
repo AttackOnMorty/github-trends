@@ -39,6 +39,9 @@ const options = {
                 tooltipFormat: 'MMM DD',
             },
         },
+        y: {
+            min: 0,
+        },
     },
     interaction: {
         mode: 'index',

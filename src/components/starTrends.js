@@ -41,9 +41,10 @@ const options = {
             },
         },
         y: {
+            min: 0,
             ticks: {
                 callback: function (value, index, ticks) {
-                    return value === 0 ? 0 : value / 1000 + 'k';
+                    return value < 1000 ? value : value / 1000 + 'k';
                 },
             },
         },
