@@ -8,7 +8,7 @@ import {
     PointElement,
     TimeScale,
     Title,
-    Tooltip
+    Tooltip,
 } from 'chart.js';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
@@ -35,9 +35,13 @@ const options = {
         x: {
             type: 'time',
             time: {
+                unit: 'month',
                 tooltipFormat: 'MMM DD',
             },
         },
+    },
+    interaction: {
+        mode: 'index',
     },
     plugins: {
         title: {
@@ -56,6 +60,12 @@ const options = {
         },
         tooltip: {
             usePointStyle: true,
+            position: 'nearest',
+            callbacks: {
+                title: function (context) {
+                    return `The week of ${context[0].label}`;
+                },
+            },
         },
     },
 };
@@ -85,8 +95,6 @@ function getData({ fullName, pages }) {
 function getDataBy(data, repos) {
     const labels = getLabels();
     const datasets = getDatasets();
-
-    console.log(labels, datasets);
 
     return {
         labels,
