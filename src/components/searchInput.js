@@ -109,9 +109,16 @@ const SearchInput = ({
     };
 
     const renderOptions = (data) =>
-        data.map(({ fullName, description }) => (
+        data.map(({ fullName, avatarUrl, description }) => (
             <Option key={fullName} value={fullName} label={fullName}>
-                <div className="font-medium">{fullName}</div>
+                <div className="flex items-center">
+                    <img
+                        className="w-5 h-5 mr-2 rounded-full"
+                        src={avatarUrl}
+                        alt="avatar"
+                    />
+                    <div className="font-medium">{fullName}</div>
+                </div>
                 <div className="font-extralight">{description}</div>
             </Option>
         ));

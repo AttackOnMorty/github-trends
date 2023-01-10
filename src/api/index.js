@@ -10,8 +10,14 @@ export const getRepositories = async (value) => {
     }
 
     return res.data.items.map(
-        ({ full_name, description, stargazers_count }) => ({
+        ({
+            full_name,
+            owner: { avatar_url },
+            description,
+            stargazers_count,
+        }) => ({
             fullName: full_name,
+            avatarUrl: avatar_url,
             description,
             currentStars: stargazers_count,
         })
@@ -34,7 +40,7 @@ export const getStargazerFirstStaredAt = async (options) => {
         return;
     }
 
-    return res.data[0].starred_at;
+    return res.data[0]?.starred_at;
 };
 
 export const getCommitCountWeekly = async (options) => {
