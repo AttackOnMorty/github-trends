@@ -1,4 +1,4 @@
-import { GithubOutlined } from '@ant-design/icons';
+import { GithubOutlined, HeartFilled } from '@ant-design/icons';
 import { Button } from 'antd';
 import _ from 'lodash';
 import { useCallback, useState } from 'react';
@@ -23,7 +23,7 @@ const App = () => {
     return (
         <div className="max-w-6xl m-auto h-full flex flex-col">
             <header className="px-14 py-4 flex justify-between">
-                <h1 className="text-2xl font-bold font-mono pointer-events-none">
+                <h1 className="text-2xl font-semibold font-mono pointer-events-none">
                     GitHub Trends
                 </h1>
                 <a
@@ -36,7 +36,7 @@ const App = () => {
                     </Button>
                 </a>
             </header>
-            <main className="px-14 pb-4 flex flex-col flex-1">
+            <main className="px-14 pb-5 flex flex-col flex-1">
                 <div className="mb-4">
                     <SearchInput
                         placeholder="Enter a repository name"
@@ -48,11 +48,37 @@ const App = () => {
                         debouncedSetRepos={debouncedSetRepos}
                     />
                 </div>
-                <div className="grid grid-cols-1 grid-rows-2 gap-4 flex-1">
-                    <StarTrends repos={repos} />
-                    <CommitTrends repos={repos} />
-                </div>
+
+                {repos.length !== 0 ? (
+                    <div className="grid grid-cols-1 grid-rows-2 gap-4 flex-1">
+                        <StarTrends repos={repos} />
+                        <CommitTrends repos={repos} />
+                    </div>
+                ) : (
+                    <div className="pt-40 flex-1 flex flex-col items-center text-3xl font-mono">
+                        <div>Compare GitHub repos by</div>
+                        <div>Stars, commits and more to come...</div>
+                    </div>
+                )}
             </main>
+            {repos.length === 0 && (
+                <footer>
+                    <div className="py-2 flex justify-center">
+                        <p className="text-sm">
+                            Crafted with{' '}
+                            <HeartFilled style={{ color: '#eb2f96' }} /> by{' '}
+                            <a
+                                className="text-blue-500 hover:underline"
+                                href="https://github.com/AttackOnMorty"
+                                target="_black"
+                                rel="noreferrer"
+                            >
+                                Luke Mao
+                            </a>
+                        </p>
+                    </div>
+                </footer>
+            )}
         </div>
     );
 };
