@@ -1,32 +1,8 @@
-import {
-    CategoryScale,
-    Chart as ChartJS,
-    Colors,
-    Legend,
-    LinearScale,
-    LineElement,
-    PointElement,
-    TimeScale,
-    Title,
-    Tooltip,
-} from 'chart.js';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
-import { Line } from 'react-chartjs-2';
 
 import { getCommitCountWeekly } from '../api';
-
-ChartJS.register(
-    CategoryScale,
-    Colors,
-    Legend,
-    LinearScale,
-    LineElement,
-    PointElement,
-    TimeScale,
-    Title,
-    Tooltip
-);
+import LineChart from './lineChart';
 
 const options = {
     responsive: true,
@@ -47,11 +23,6 @@ const options = {
         mode: 'index',
     },
     plugins: {
-        title: {
-            display: true,
-            // TODO: Commit icon
-            text: 'Commits',
-        },
         legend: {
             position: 'top',
             labels: {
@@ -87,7 +58,13 @@ const CommitTrends = ({ repos }) => {
         );
     }, [repos]);
 
-    return <div>{data && <Line options={options} data={data} />}</div>;
+    return (
+        <>
+            {data && (
+                <LineChart title="Commits" options={options} data={data} />
+            )}
+        </>
+    );
 };
 
 function getData({ fullName, pages }) {

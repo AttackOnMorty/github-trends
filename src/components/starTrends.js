@@ -1,33 +1,10 @@
-import {
-    CategoryScale,
-    Chart as ChartJS,
-    Colors,
-    Legend,
-    LinearScale,
-    LineElement,
-    PointElement,
-    TimeScale,
-    Title,
-    Tooltip,
-} from 'chart.js';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
 
 import { getStargazerFirstStaredAt } from '../api';
 import { GITHUB_COUNT_LIMIT, MAX_REQUEST_AMOUNT } from '../constants';
-
-ChartJS.register(
-    CategoryScale,
-    Colors,
-    Legend,
-    LinearScale,
-    LineElement,
-    PointElement,
-    TimeScale,
-    Title,
-    Tooltip
-);
+import LineChart from './lineChart';
 
 const options = {
     responsive: true,
@@ -50,10 +27,6 @@ const options = {
         },
     },
     plugins: {
-        title: {
-            display: true,
-            text: '⭐ Stars',
-        },
         legend: {
             position: 'top',
             labels: {
@@ -85,7 +58,9 @@ const StarTrends = ({ repos }) => {
         );
     }, [repos]);
 
-    return <div>{data && <Line options={options} data={data} />}</div>;
+    return (
+        <>{data && <LineChart title="Stars" options={options} data={data} />}</>
+    );
 };
 
 function transformRepo(repo) {

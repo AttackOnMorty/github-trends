@@ -21,7 +21,7 @@ const App = () => {
     );
 
     return (
-        <div className="h-full flex flex-col">
+        <div className="max-w-6xl m-auto h-full flex flex-col">
             <header className="px-14 py-4 flex justify-between">
                 <h1 className="text-2xl font-bold font-mono pointer-events-none">
                     GitHub Trends
@@ -41,7 +41,7 @@ const App = () => {
                     <SearchInput
                         placeholder="Enter a repository name"
                         style={{
-                            width: '50%',
+                            width: '100%',
                         }}
                         repos={repos}
                         setRepos={setRepos}
