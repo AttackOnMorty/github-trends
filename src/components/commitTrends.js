@@ -82,9 +82,8 @@ function getDataBy(data, repos) {
         const res = [];
 
         for (let i = 0; i < repos.length; i++) {
-            const { fullName: label } = repos[i];
             res.push({
-                label,
+                label: repos[i].fullName,
                 data: data[i],
                 spanGaps: true,
                 cubicInterpolationMode: 'monotone',

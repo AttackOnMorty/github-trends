@@ -78,14 +78,11 @@ function transformRepo(repo) {
 function getDate({ fullName, pages }) {
     const [owner, repo] = fullName.split('/');
     return Promise.all(
-        pages.map(
-            async (page) =>
-                await getStargazerFirstStaredAt({ owner, repo, page })
-        )
+        pages.map((page) => getStargazerFirstStaredAt({ owner, repo, page }))
     );
 }
 
-function getDataBy(dates, repos) {
+function getDataBy(dates, transformedRepos) {
     const DATE_FORMAT = 'YYYY-MM';
     const transformedDates = dates.map((dateList) =>
         dateList.map((date) => dayjs(date).format(DATE_FORMAT))
@@ -96,7 +93,7 @@ function getDataBy(dates, repos) {
     const totalMonths = dayjs().diff(minDate, 'month');
 
     const labels = getLabels();
-    const datasets = getDatasetsBy(repos, transformedDates);
+    const datasets = getDatasetsBy(transformedRepos, transformedDates);
 
     return {
         labels,
@@ -121,11 +118,11 @@ function getDataBy(dates, repos) {
         const res = [];
 
         for (let i = 0; i < repos.length; i++) {
-            const { fullName: label, pages: stars, currentStars } = repos[i];
-            const data = getDataBy(dates[i], stars, currentStars);
+            const { fullName, pages, currentStars } = repos[i];
+            const data = getDataBy(dates[i], pages, currentStars);
 
             res.push({
-                label,
+                label: fullName,
                 data,
                 spanGaps: true,
                 cubicInterpolationMode: 'monotone',
