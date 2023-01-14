@@ -1,43 +1,24 @@
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
-import { Line } from 'react-chartjs-2';
 
 import { getStargazerFirstStaredAt } from '../api';
 import { GITHUB_COUNT_LIMIT, MAX_REQUEST_AMOUNT } from '../constants';
 import LineChart from './lineChart';
 
 const options = {
-    responsive: true,
-    maintainAspectRatio: false,
     scales: {
         x: {
-            type: 'time',
             time: {
                 unit: 'year',
                 tooltipFormat: 'MMM YYYY',
             },
         },
         y: {
-            min: 0,
             ticks: {
                 callback: function (value, index, ticks) {
                     return value < 1000 ? value : value / 1000 + 'k';
                 },
             },
-        },
-    },
-    plugins: {
-        legend: {
-            position: 'top',
-            labels: {
-                usePointStyle: true,
-            },
-        },
-        colors: {
-            forceOverride: true,
-        },
-        tooltip: {
-            usePointStyle: true,
         },
     },
 };

@@ -5,35 +5,19 @@ import { getCommitCountWeekly } from '../api';
 import LineChart from './lineChart';
 
 const options = {
-    responsive: true,
-    maintainAspectRatio: false,
     scales: {
         x: {
-            type: 'time',
             time: {
                 unit: 'month',
                 tooltipFormat: 'MMM DD',
             },
-        },
-        y: {
-            min: 0,
         },
     },
     interaction: {
         mode: 'index',
     },
     plugins: {
-        legend: {
-            position: 'top',
-            labels: {
-                usePointStyle: true,
-            },
-        },
-        colors: {
-            forceOverride: true,
-        },
         tooltip: {
-            usePointStyle: true,
             position: 'nearest',
             callbacks: {
                 title: function (context) {
