@@ -40,7 +40,11 @@ const StarTrends = ({ repos }) => {
     }, [repos]);
 
     return (
-        <>{data && <LineChart title="Stars" options={options} data={data} />}</>
+        <>
+            {data && (
+                <LineChart title="⭐ Stars" options={options} data={data} />
+            )}
+        </>
     );
 };
 

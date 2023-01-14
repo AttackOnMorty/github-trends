@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 
 import { getCommitCountWeekly } from '../api';
+import { ReactComponent as Commit } from '../assets/commit.svg';
 import LineChart from './lineChart';
 
 const options = {
@@ -45,7 +46,16 @@ const CommitTrends = ({ repos }) => {
     return (
         <>
             {data && (
-                <LineChart title="Commits" options={options} data={data} />
+                <LineChart
+                    title={
+                        <div className="flex items-center">
+                            <Commit className="mr-1 inline fill-green-600" />{' '}
+                            Commits
+                        </div>
+                    }
+                    options={options}
+                    data={data}
+                />
             )}
         </>
     );
