@@ -139,6 +139,7 @@ const SearchInput = ({
             onChange={handleChange}
             notFoundContent={fetching ? <Spin size="small" /> : null}
             optionLabelProp="label"
+            listHeight={270}
         >
             {renderOptions(data)}
         </Select>
