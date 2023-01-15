@@ -44,20 +44,15 @@ const CommitTrends = ({ repos }) => {
     }, [repos]);
 
     return (
-        <>
-            {data && (
-                <LineChart
-                    title={
-                        <div className="flex items-center">
-                            <Commit className="mr-1 inline fill-green-600" />{' '}
-                            Commits
-                        </div>
-                    }
-                    options={options}
-                    data={data}
-                />
-            )}
-        </>
+        <LineChart
+            title={
+                <div className="flex items-center">
+                    <Commit className="mr-1 inline fill-green-600" /> Commits
+                </div>
+            }
+            options={options}
+            data={data}
+        />
     );
 };
 

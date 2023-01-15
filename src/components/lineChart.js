@@ -1,3 +1,4 @@
+import { Spin } from 'antd';
 import {
     CategoryScale,
     Chart as ChartJS,
@@ -56,9 +57,13 @@ const LineChart = ({ title, options, data }) => {
     return (
         <div className="flex flex-col">
             <h2 className="text-xl font-medium">{title}</h2>
-            <div className="flex-1">
-                <Line options={merge(baseOptions, options)} data={data} />
-            </div>
+            {data ? (
+                <div className="flex-1">
+                    <Line options={merge(baseOptions, options)} data={data} />
+                </div>
+            ) : (
+                <Spin className="flex-1 flex justify-center items-center" />
+            )}
         </div>
     );
 };

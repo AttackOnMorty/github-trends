@@ -39,13 +39,7 @@ const StarTrends = ({ repos }) => {
         );
     }, [repos]);
 
-    return (
-        <>
-            {data && (
-                <LineChart title="⭐ Stars" options={options} data={data} />
-            )}
-        </>
-    );
+    return <LineChart title="⭐ Stars" options={options} data={data} />;
 };
 
 function transformRepo(repo) {
