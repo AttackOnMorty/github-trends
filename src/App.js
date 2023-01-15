@@ -56,8 +56,15 @@ const App = () => {
                     </div>
                 ) : (
                     <div className="pt-40 flex-1 flex flex-col items-center text-3xl font-mono">
-                        <div>Compare GitHub repos by</div>
-                        <div>Stars, commits and more to come...</div>
+                        <div>
+                            Compare GitHub repos by the{' '}
+                            <span className="text-red-600">history</span> of
+                        </div>
+                        <div>
+                            <span className="text-red-600">stars</span>,{' '}
+                            <span className="text-red-600">commits</span> and
+                            more to come...
+                        </div>
                     </div>
                 )}
             </main>
