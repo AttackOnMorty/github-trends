@@ -43,7 +43,7 @@ const fetch = (value, setData, allData, setAllData, setFetching) => {
         setFetching(false);
     };
 
-    timeout = setTimeout(getRepoList, 500);
+    timeout = setTimeout(getRepoList, 800);
 };
 
 const SearchInput = ({
