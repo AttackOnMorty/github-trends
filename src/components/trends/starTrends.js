@@ -1,9 +1,9 @@
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 
-import { getStargazerFirstStaredAt } from '../api';
-import { GITHUB_COUNT_LIMIT, MAX_REQUEST_AMOUNT } from '../constants';
-import LineChart from './lineChart';
+import { getStargazerFirstStaredAt } from '../../api';
+import { GITHUB_COUNT_LIMIT, MAX_REQUEST_AMOUNT } from '../../constants';
+import LineChart from '../lineChart';
 
 const options = {
     scales: {

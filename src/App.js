@@ -3,9 +3,9 @@ import { Button } from 'antd';
 import _ from 'lodash';
 import { useCallback, useState } from 'react';
 
-import CommitTrends from './components/commitTrends';
+import CommitTrends from './components/trends/commitTrends';
 import SearchInput from './components/searchInput';
-import StarTrends from './components/starTrends';
+import StarTrends from './components/trends/starTrends';
 
 const App = () => {
     const [repos, setRepos] = useState([]);

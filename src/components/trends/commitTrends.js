@@ -1,9 +1,9 @@
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 
-import { getCommitCountWeekly } from '../api';
-import { ReactComponent as Commit } from '../assets/commit.svg';
-import LineChart from './lineChart';
+import { getCommitCountWeekly } from '../../api';
+import { ReactComponent as Commit } from '../../assets/commit.svg';
+import LineChart from '../lineChart';
 
 const options = {
     scales: {
