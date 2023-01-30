@@ -14,8 +14,9 @@ const options = {
         },
         y: {
             ticks: {
+                stepSize: 10000,
                 callback: function (value, index, ticks) {
-                    return value < 10000 ? value : value / 10000;
+                    return value / 10000;
                 },
             },
         },

@@ -15,6 +15,7 @@ const options = {
         },
         y: {
             ticks: {
+                precision: 0,
                 callback: function (value, index, ticks) {
                     return value < 1000 ? value : value / 1000 + 'k';
                 },

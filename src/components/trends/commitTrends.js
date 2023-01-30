@@ -13,6 +13,11 @@ const options = {
                 tooltipFormat: 'MMM DD',
             },
         },
+        y: {
+            ticks: {
+                precision: 0,
+            },
+        },
     },
     interaction: {
         mode: 'index',
