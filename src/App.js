@@ -3,8 +3,9 @@ import { Button } from 'antd';
 import _ from 'lodash';
 import { useCallback, useState } from 'react';
 
-import CommitTrends from './components/trends/commitTrends';
 import SearchInput from './components/searchInput';
+import CommitTrends from './components/trends/commitTrends';
+import ReleaseTrends from './components/trends/releaseTrends';
 import StarTrends from './components/trends/starTrends';
 
 const App = () => {
@@ -50,9 +51,10 @@ const App = () => {
                 </div>
 
                 {repos.length !== 0 ? (
-                    <div className="grid grid-cols-1 grid-rows-2 gap-4 flex-1">
+                    <div className="grid grid-rows-3 grid-cols-1 gap-4 flex-1">
                         <StarTrends repos={repos} />
                         <CommitTrends repos={repos} />
+                        <ReleaseTrends repos={repos} />
                     </div>
                 ) : (
                     <div className="pt-40 flex-1 flex flex-col items-center text-3xl font-mono">

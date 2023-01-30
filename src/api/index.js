@@ -59,3 +59,37 @@ export const getCommitCountWeekly = async (options) => {
 
     return res.data.all;
 };
+
+export const getReleases = async (options) => {
+    const result = [];
+    const page = 1;
+
+    await getReleasesBy(page);
+
+    return result;
+
+    async function getReleasesBy(page) {
+        const { owner, repo } = options;
+        const res = await octokit.request(
+            'GET /repos/{owner}/{repo}/releases',
+            {
+                owner,
+                repo,
+                per_page: 100,
+                page,
+            }
+        );
+
+        if (res.status !== 200 || res.data.length === 0) {
+            return;
+        }
+
+        const mappedData = res.data.map(({ tag_name, published_at }) => ({
+            tagName: tag_name,
+            publishedAt: published_at,
+        }));
+
+        result.push(...mappedData);
+        await getReleasesBy(page + 1);
+    }
+};

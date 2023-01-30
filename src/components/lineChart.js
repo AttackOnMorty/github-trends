@@ -58,11 +58,13 @@ const LineChart = ({ title, options, data }) => {
         <div className="flex flex-col">
             <h2 className="text-xl font-medium">{title}</h2>
             {data ? (
-                <div className="flex-1">
+                <div className="h-64">
                     <Line options={merge(baseOptions, options)} data={data} />
                 </div>
             ) : (
-                <Spin className="flex-1 flex justify-center items-center" />
+                <div className="h-64 flex justify-center items-center">
+                    <Spin />
+                </div>
             )}
         </div>
     );
