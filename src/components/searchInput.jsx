@@ -46,13 +46,13 @@ const fetch = (value, setData, allData, setAllData, setFetching) => {
     timeout = setTimeout(getRepoList, 800);
 };
 
-const SearchInput = ({
+function SearchInput({
     placeholder,
     style,
     repos,
     setRepos,
     debouncedSetRepos,
-}) => {
+}) {
     const [value, setValue] = useState([]);
     const [data, setData] = useState([]);
     const [allData, setAllData] = useState([]);
@@ -144,6 +144,6 @@ const SearchInput = ({
             {renderOptions(data)}
         </Select>
     );
-};
+}
 
 export default SearchInput;

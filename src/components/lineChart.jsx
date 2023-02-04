@@ -12,6 +12,7 @@ import {
     Tooltip,
 } from 'chart.js';
 import { merge } from 'lodash';
+// eslint-disable-next-line import/no-unresolved
 import { Line } from 'react-chartjs-2';
 
 ChartJS.register(
@@ -26,7 +27,7 @@ ChartJS.register(
     Tooltip
 );
 
-const LineChart = ({ title, options, data }) => {
+function LineChart({ title, options, data }) {
     const baseOptions = {
         responsive: true,
         maintainAspectRatio: false,
@@ -68,6 +69,6 @@ const LineChart = ({ title, options, data }) => {
             )}
         </div>
     );
-};
+}
 
 export default LineChart;

@@ -8,18 +8,17 @@ import CommitTrends from './components/trends/commitTrends';
 import ReleaseTrends from './components/trends/releaseTrends';
 import StarTrends from './components/trends/starTrends';
 
-const App = () => {
+function App() {
     const [repos, setRepos] = useState([]);
 
-    const debouncedSetRepos = (repos) => {
-        debounce(repos);
-    };
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     const debounce = useCallback(
         _.debounce((repos) => setRepos(repos), 300),
         []
     );
+
+    const debouncedSetRepos = (repos) => {
+        debounce(repos);
+    };
 
     return (
         <div className="max-w-6xl m-auto h-full flex flex-col">
@@ -90,6 +89,6 @@ const App = () => {
             )}
         </div>
     );
-};
+}
 
 export default App;

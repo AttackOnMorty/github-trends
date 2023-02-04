@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import octokit from '../utils/octokit';
 
 export const getRepositories = async (value) => {
@@ -6,7 +7,7 @@ export const getRepositories = async (value) => {
     });
 
     if (res.status !== 200) {
-        return;
+        return [];
     }
 
     return res.data.items.map(
@@ -37,7 +38,7 @@ export const getStargazerFirstStaredAt = async (options) => {
     });
 
     if (res.status !== 200) {
-        return;
+        return null;
     }
 
     return res.data[0]?.starred_at;
@@ -54,7 +55,7 @@ export const getCommitCountWeekly = async (options) => {
     );
 
     if (res.status !== 200) {
-        return;
+        return [];
     }
 
     return res.data.all;

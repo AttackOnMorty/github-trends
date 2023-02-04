@@ -16,15 +16,15 @@ const options = {
         y: {
             ticks: {
                 precision: 0,
-                callback: function (value, index, ticks) {
-                    return value < 1000 ? value : value / 1000 + 'k';
+                callback(value) {
+                    return value < 1000 ? value : `${value / 1000}k`;
                 },
             },
         },
     },
 };
 
-const StarTrends = ({ repos }) => {
+function StarTrends({ repos }) {
     const [data, setData] = useState();
 
     useEffect(() => {
@@ -41,7 +41,7 @@ const StarTrends = ({ repos }) => {
     }, [repos]);
 
     return <LineChart title="⭐ Stars" options={options} data={data} />;
-};
+}
 
 function transformRepo(repo) {
     const { fullName, currentStars } = repo;

@@ -15,7 +15,7 @@ const options = {
         y: {
             ticks: {
                 stepSize: 10000,
-                callback: function (value, index, ticks) {
+                callback(value, index, ticks) {
                     return value / 10000;
                 },
             },
@@ -24,16 +24,16 @@ const options = {
     plugins: {
         tooltip: {
             callbacks: {
-                label: function (context) {
-                    const label = context.dataset.label;
+                label(context) {
+                    const { label } = context.dataset;
                     const versionString = getVersionString(context.raw);
-                    return label + ': ' + versionString;
+                    return `${label}: ${versionString}`;
 
                     function getVersionString(versionNumber) {
                         const major = Math.floor(versionNumber / 10000) % 100;
                         const minor = Math.floor(versionNumber / 100) % 100;
                         const patch = versionNumber % 100;
-                        return major + '.' + minor + '.' + patch;
+                        return `${major}.${minor}.${patch}`;
                     }
                 },
             },
@@ -41,7 +41,7 @@ const options = {
     },
 };
 
-const ReleaseTrends = ({ repos }) => {
+function ReleaseTrends({ repos }) {
     const [data, setData] = useState();
 
     useEffect(() => {
@@ -56,7 +56,7 @@ const ReleaseTrends = ({ repos }) => {
     }, [repos]);
 
     return <LineChart title="🚀 Releases" options={options} data={data} />;
-};
+}
 
 function getData({ fullName }) {
     const [owner, repo] = fullName.split('/');

@@ -26,7 +26,7 @@ const options = {
         tooltip: {
             position: 'nearest',
             callbacks: {
-                title: function (context) {
+                title(context) {
                     return `The week of ${context[0].label}`;
                 },
             },
@@ -34,7 +34,7 @@ const options = {
     },
 };
 
-const CommitTrends = ({ repos }) => {
+function CommitTrends({ repos }) {
     const [data, setData] = useState();
 
     useEffect(() => {
@@ -59,9 +59,9 @@ const CommitTrends = ({ repos }) => {
             data={data}
         />
     );
-};
+}
 
-function getData({ fullName, pages }) {
+function getData({ fullName }) {
     const [owner, repo] = fullName.split('/');
     return getCommitCountWeekly({ owner, repo });
 }
