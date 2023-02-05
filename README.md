@@ -1,9 +1,12 @@
 # GitHub Trends
 
-![Charts](./docs/images/charts.png)
+![Stars](./docs/stars.png)
+
+![Commits](./docs/commits.png)
+
+![releases](./docs/releases.png)
 
 ## Upcoming
 
 -   Issues
--   Releases
 -   ...
