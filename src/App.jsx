@@ -23,6 +23,7 @@ function App() {
     return (
         <div className="max-w-6xl m-auto h-full flex flex-col">
             <header className="px-14 py-4 flex justify-between">
+                {/* TODO: Change font weight */}
                 <h1 className="text-2xl font-semibold font-mono pointer-events-none">
                     GitHub Trends
                 </h1>
@@ -68,7 +69,7 @@ function App() {
             </main>
             <footer>
                 <div className="py-4 flex justify-center">
-                    <p className="text-sm">
+                    <p className="text-sm font-light">
                         Crafted with{' '}
                         <HeartFilled style={{ color: '#eb2f96' }} /> by{' '}
                         <a
