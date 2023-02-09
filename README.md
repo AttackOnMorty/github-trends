@@ -1,8 +1,5 @@
 # GitHub Trends
 
-![Charts](./docs/charts.png)
+When choosing GitHub open source software, it provides data-level comparisons to help you make better decisions.
 
-## Upcoming
-
--   Issues
--   ...
+![Charts](./docs/trends.png)

@@ -4,9 +4,9 @@ import _ from 'lodash';
 import { useCallback, useState } from 'react';
 
 import SearchInput from './components/searchInput';
-import CommitTrends from './components/trends/commitTrends';
-import ReleaseTrends from './components/trends/releaseTrends';
-import StarTrends from './components/trends/starTrends';
+import CommitsTrend from './components/trends/commitsTrend';
+import ReleasesTrend from './components/trends/releasesTrend';
+import StarsTrend from './components/trends/starsTrend';
 
 function App() {
     const [repos, setRepos] = useState([]);
@@ -51,43 +51,37 @@ function App() {
 
                 {repos.length !== 0 ? (
                     <div className="grid grid-rows-3 grid-cols-1 gap-4 flex-1">
-                        <StarTrends repos={repos} />
-                        <CommitTrends repos={repos} />
-                        <ReleaseTrends repos={repos} />
+                        <StarsTrend repos={repos} />
+                        <CommitsTrend repos={repos} />
+                        <ReleasesTrend repos={repos} />
                     </div>
                 ) : (
                     <div className="pt-40 flex-1 flex flex-col items-center text-3xl font-mono">
-                        <div>
-                            Compare GitHub repos by the{' '}
-                            <span className="text-red-600">history</span> of{' '}
-                        </div>
+                        <div>Compare GitHub repos by the history of</div>
                         <div>
                             <span className="text-red-600">stars</span>,{' '}
-                            <span className="text-red-600">commits</span>,{' '}
-                            <span className="text-red-600">releases</span> and
-                            more...
+                            <span className="text-red-600">commits</span> and{' '}
+                            <span className="text-red-600">releases</span>
                         </div>
                     </div>
                 )}
             </main>
-            {repos.length === 0 && (
-                <footer>
-                    <div className="py-2 flex justify-center">
-                        <p className="text-sm">
-                            Crafted with{' '}
-                            <HeartFilled style={{ color: '#eb2f96' }} /> by{' '}
-                            <a
-                                className="text-blue-500 hover:underline"
-                                href="https://github.com/AttackOnMorty"
-                                target="_black"
-                                rel="noreferrer"
-                            >
-                                Luke Mao
-                            </a>
-                        </p>
-                    </div>
-                </footer>
-            )}
+            <footer>
+                <div className="py-4 flex justify-center">
+                    <p className="text-sm">
+                        Crafted with{' '}
+                        <HeartFilled style={{ color: '#eb2f96' }} /> by{' '}
+                        <a
+                            className="text-blue-500 hover:underline"
+                            href="https://github.com/AttackOnMorty"
+                            target="_black"
+                            rel="noreferrer"
+                        >
+                            Luke Mao
+                        </a>
+                    </p>
+                </div>
+            </footer>
         </div>
     );
 }

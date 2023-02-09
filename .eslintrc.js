@@ -4,8 +4,8 @@ module.exports = {
         es2021: true,
     },
     extends: [
-        'plugin:react/recommended',
         'airbnb',
+        'plugin:react/recommended',
         'plugin:react/jsx-runtime',
         'prettier',
     ],
@@ -16,9 +16,10 @@ module.exports = {
     },
     plugins: ['react'],
     rules: {
+        camelcase: 1,
         'react/prop-types': 0,
-        'no-shadow': 0,
         'no-plusplus': 0,
+        'no-shadow': 0,
         'no-use-before-define': ['error', { functions: false }],
     },
 };

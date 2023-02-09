@@ -1,6 +1,8 @@
 import dayjs from 'dayjs';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+
+import 'antd/dist/reset.css';
 import 'chartjs-adapter-dayjs-4/dist/chartjs-adapter-dayjs-4.esm';
 
 import App from './App';
@@ -8,7 +10,6 @@ import reportWebVitals from './reportWebVitals';
 
 import './index.css';
 
-// TODO: Why can't use import?
 const minMax = require('dayjs/plugin/minMax');
 const weekday = require('dayjs/plugin/weekday');
 

@@ -2,8 +2,10 @@ import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 
 import { getStargazerFirstStaredAt } from '../../api';
-import { GITHUB_COUNT_LIMIT, MAX_REQUEST_AMOUNT } from '../../constants';
 import LineChart from '../lineChart';
+
+const GITHUB_COUNT_LIMIT = 40000;
+const MAX_REQUEST_AMOUNT = 15;
 
 const options = {
     scales: {
@@ -24,7 +26,7 @@ const options = {
     },
 };
 
-function StarTrends({ repos }) {
+function StarsTrend({ repos }) {
     const [data, setData] = useState();
 
     useEffect(() => {
@@ -151,4 +153,4 @@ function getDataBy(dates, transformedRepos) {
     }
 }
 
-export default StarTrends;
+export default StarsTrend;

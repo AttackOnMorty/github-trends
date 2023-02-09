@@ -34,7 +34,7 @@ const options = {
     },
 };
 
-function CommitTrends({ repos }) {
+function CommitsTrend({ repos }) {
     const [data, setData] = useState();
 
     useEffect(() => {
@@ -104,4 +104,4 @@ function getDataBy(data, repos) {
     }
 }
 
-export default CommitTrends;
+export default CommitsTrend;
