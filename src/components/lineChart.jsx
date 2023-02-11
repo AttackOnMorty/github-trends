@@ -1,4 +1,4 @@
-import { Spin } from 'antd';
+import { Empty, Spin } from 'antd';
 import {
     CategoryScale,
     Chart as ChartJS,
@@ -58,10 +58,20 @@ function LineChart({ title, options, data }) {
     return (
         <div className="flex flex-col">
             <h2 className="text-xl font-medium">{title}</h2>
+            {/* eslint-disable-next-line no-nested-ternary */}
             {data ? (
-                <div className="h-64">
-                    <Line options={merge(baseOptions, options)} data={data} />
-                </div>
+                data.labels.length === 0 ? (
+                    <div className="flex-1 flex justify-center items-center">
+                        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                    </div>
+                ) : (
+                    <div className="h-64">
+                        <Line
+                            options={merge(baseOptions, options)}
+                            data={data}
+                        />
+                    </div>
+                )
             ) : (
                 <div className="h-64 flex justify-center items-center">
                     <Spin />
