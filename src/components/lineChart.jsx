@@ -56,7 +56,7 @@ function LineChart({ title, options, data }) {
     };
 
     return (
-        <div className="flex flex-col">
+        <div className="p-4 flex flex-col rounded-md shadow bg-white">
             <h2 className="text-xl font-medium">{title}</h2>
             {/* eslint-disable-next-line no-nested-ternary */}
             {data ? (

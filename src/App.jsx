@@ -21,10 +21,9 @@ function App() {
     };
 
     return (
-        <div className="max-w-6xl m-auto h-full flex flex-col">
+        <div className="h-full flex flex-col">
             <header className="px-14 py-4 flex justify-between">
-                {/* TODO: Change font weight */}
-                <h1 className="text-2xl font-semibold font-mono pointer-events-none">
+                <h1 className="text-2xl font-mono pointer-events-none">
                     GitHub Trends
                 </h1>
                 <a
@@ -37,38 +36,47 @@ function App() {
                     </Button>
                 </a>
             </header>
-            <main className="px-14 pb-5 flex flex-col flex-1">
-                <div className="mb-4">
-                    <SearchInput
-                        placeholder="Enter a repository name"
-                        style={{
-                            width: '100%',
-                        }}
-                        repos={repos}
-                        setRepos={setRepos}
-                        debouncedSetRepos={debouncedSetRepos}
-                    />
-                </div>
-
-                {repos.length !== 0 ? (
-                    <div className="grid grid-rows-3 grid-cols-1 gap-4 flex-1">
-                        <StarsTrend repos={repos} />
-                        <CommitsTrend repos={repos} />
-                        <ReleasesTrend repos={repos} />
-                    </div>
-                ) : (
-                    <div className="pt-40 flex-1 flex flex-col items-center text-3xl font-mono">
-                        <div>Compare GitHub repos by the history of</div>
-                        <div>
-                            <span className="text-red-600">stars</span>,{' '}
-                            <span className="text-red-600">commits</span> and{' '}
-                            <span className="text-red-600">releases</span>
+            <div className="flex flex-1 flex-col bg-[#f5f5f5]">
+                <div className="flex flex-1 justify-center">
+                    <main className="max-w-6xl px-10 pb-6 flex flex-1 flex-col">
+                        <div className="my-6">
+                            <SearchInput
+                                className="mb-8"
+                                placeholder="Enter a repository name"
+                                style={{
+                                    width: '100%',
+                                }}
+                                repos={repos}
+                                setRepos={setRepos}
+                                debouncedSetRepos={debouncedSetRepos}
+                            />
                         </div>
-                    </div>
-                )}
-            </main>
-            <footer>
-                <div className="py-4 flex justify-center">
+                        {repos.length !== 0 ? (
+                            <div className="grid grid-rows-3 grid-cols-1 gap-8 flex-1">
+                                <StarsTrend repos={repos} />
+                                <CommitsTrend repos={repos} />
+                                <ReleasesTrend repos={repos} />
+                            </div>
+                        ) : (
+                            <div className="pt-40 flex-1 flex flex-col items-center text-3xl font-mono">
+                                <div>
+                                    Compare GitHub repos by the history of
+                                </div>
+                                <div>
+                                    <span className="text-red-600">stars</span>,{' '}
+                                    <span className="text-red-600">
+                                        commits
+                                    </span>{' '}
+                                    and{' '}
+                                    <span className="text-red-600">
+                                        releases
+                                    </span>
+                                </div>
+                            </div>
+                        )}
+                    </main>
+                </div>
+                <footer className="pb-6 flex justify-center">
                     <p className="text-sm font-light">
                         Crafted with{' '}
                         <HeartFilled style={{ color: '#eb2f96' }} /> by{' '}
@@ -81,8 +89,8 @@ function App() {
                             Luke Mao
                         </a>
                     </p>
-                </div>
-            </footer>
+                </footer>
+            </div>
         </div>
     );
 }
