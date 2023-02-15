@@ -4,9 +4,9 @@ import _ from 'lodash';
 import { useCallback, useState } from 'react';
 
 import SearchInput from './components/searchInput';
-import CommitsTrend from './components/trends/commitsTrend';
-import ReleasesTrend from './components/trends/releasesTrend';
-import StarsTrend from './components/trends/starsTrend';
+import CommitTrend from './components/trends/commitTrend';
+import ReleaseTrend from './components/trends/releaseTrend';
+import StarTrend from './components/trends/starTrend';
 
 function App() {
     const [repos, setRepos] = useState([]);
@@ -53,9 +53,9 @@ function App() {
                         </div>
                         {repos.length !== 0 ? (
                             <div className="grid grid-rows-3 grid-cols-1 gap-8 flex-1">
-                                <StarsTrend repos={repos} />
-                                <CommitsTrend repos={repos} />
-                                <ReleasesTrend repos={repos} />
+                                <StarTrend repos={repos} />
+                                <CommitTrend repos={repos} />
+                                <ReleaseTrend repos={repos} />
                             </div>
                         ) : (
                             <div className="pt-40 flex-1 flex flex-col items-center text-3xl font-mono">
