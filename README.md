@@ -2,4 +2,8 @@
 
 Compare GitHub repos by the history of **stars**, **commits** and **releases**. Hope it can help you make better decisions when choosing GitHub open-source software.
 
-![Charts](./docs/github-trends.png)
+![Star Trend](./docs/star-trend.png)
+
+![Commit Trend](./docs/commit-trend.png)
+
+![Release Trend](./docs/release-trend.png)
