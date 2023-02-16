@@ -86,7 +86,7 @@ function App() {
                             target="_black"
                             rel="noreferrer"
                         >
-                            Luke Mao
+                            Luke
                         </a>
                     </p>
                 </footer>
