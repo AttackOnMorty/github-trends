@@ -1,7 +1,8 @@
-import { GithubOutlined, HeartFilled } from '@ant-design/icons';
-import { Button } from 'antd';
 import _ from 'lodash';
 import { useCallback, useState } from 'react';
+import Footer from './components/footer';
+import Header from './components/header';
+import HomePage from './components/homePage';
 
 import SearchInput from './components/searchInput';
 import CommitTrend from './components/trends/commitTrend';
@@ -22,20 +23,7 @@ function App() {
 
     return (
         <div className="h-full flex flex-col">
-            <header className="px-14 py-4 flex justify-between">
-                <h1 className="text-2xl font-mono pointer-events-none">
-                    GitHub Trends
-                </h1>
-                <a
-                    href="https://github.com/AttackOnMorty/github-trends"
-                    target="_black"
-                    rel="noreferrer"
-                >
-                    <Button type="text">
-                        <GithubOutlined className="text-xl" />
-                    </Button>
-                </a>
-            </header>
+            <Header />
             <div className="flex flex-1 flex-col bg-[#f5f5f5]">
                 <div className="flex flex-1 justify-center">
                     <main className="max-w-6xl px-10 pb-6 flex flex-1 flex-col">
@@ -58,38 +46,11 @@ function App() {
                                 <ReleaseTrend repos={repos} />
                             </div>
                         ) : (
-                            <div className="pt-40 flex-1 flex flex-col items-center text-3xl font-mono">
-                                <div>
-                                    Compare GitHub repos by the history of
-                                </div>
-                                <div>
-                                    <span className="text-red-600">stars</span>,{' '}
-                                    <span className="text-red-600">
-                                        commits
-                                    </span>{' '}
-                                    and{' '}
-                                    <span className="text-red-600">
-                                        releases
-                                    </span>
-                                </div>
-                            </div>
+                            <HomePage />
                         )}
                     </main>
                 </div>
-                <footer className="pb-6 flex justify-center">
-                    <p className="text-sm font-light">
-                        Crafted with{' '}
-                        <HeartFilled style={{ color: '#eb2f96' }} /> by{' '}
-                        <a
-                            className="text-blue-500 hover:underline"
-                            href="https://github.com/AttackOnMorty"
-                            target="_black"
-                            rel="noreferrer"
-                        >
-                            Luke Mao
-                        </a>
-                    </p>
-                </footer>
+                <Footer />
             </div>
         </div>
     );
