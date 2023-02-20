@@ -5,7 +5,7 @@
     "dependencies": {
         "@ant-design/icons": "^4.8.0",
         "@testing-library/jest-dom": "^5.16.5",
-        "@testing-library/react": "^13.4.0",
+        "@testing-library/react": "^14.0.0",
         "@testing-library/user-event": "^13.5.0",
         "antd": "^5.2.2",
         "chart.js": "^4.1.1",
