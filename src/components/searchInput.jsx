@@ -66,6 +66,8 @@ function SearchInput({
             event.preventDefault();
             event.stopPropagation();
         };
+        const { htmlUrl } = data.find((repo) => repo.fullName === value);
+
         return (
             <Tag
                 color={COLORS[index]}
@@ -78,7 +80,9 @@ function SearchInput({
                     lineHeight: '26px',
                 }}
             >
-                {label}
+                <a href={htmlUrl} target="_blank" rel="noopener noreferrer">
+                    {label}
+                </a>
             </Tag>
         );
     };
