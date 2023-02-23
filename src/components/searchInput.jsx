@@ -1,19 +1,43 @@
 import { Select, Spin, Tag } from 'antd';
 import { useState } from 'react';
+import { Tooltip } from 'react-tooltip';
 
 import { getRepositories } from '../api';
 
 const { Option } = Select;
 
 const COLORS = [
-    'rgb(54, 162, 235)',
-    'rgb(255, 99, 132)',
-    'rgb(255, 159, 64)',
-    'rgb(255, 205, 86)',
-    'rgb(75, 192, 192)',
-    'rgb(153, 102, 255)',
-    'rgb(201, 203, 207)',
+    {
+        base: 'rgb(54, 162, 235)',
+        hoverClass: 'hover:!bg-[#0E90E4]',
+    },
+    {
+        base: 'rgb(255, 99, 132)',
+        hoverClass: 'hover:!bg-[#FF3863]',
+    },
+    {
+        base: 'rgb(255, 159, 64)',
+        hoverClass: 'hover:!bg-[#F3800E]',
+    },
+    {
+        base: 'rgb(255, 205, 86)',
+        hoverClass: 'hover:!bg-[#EAB32F]',
+    },
+    {
+        base: 'rgb(75, 192, 192)',
+        hoverClass: 'hover:!bg-[#2CA6A6]',
+    },
+    {
+        base: 'rgb(153, 102, 255)',
+        hoverClass: 'hover:!bg-[#7E3FFF]',
+    },
+    {
+        base: 'rgb(201, 203, 207)',
+        hoverClass: 'hover:!bg-[#9CA1AB]',
+    },
 ];
+
+const SHADOWS = COLORS.map((color) => `0 0 16px -8px ${color.base}`);
 
 let timeout;
 let currentValue;
@@ -70,19 +94,38 @@ function SearchInput({
 
         return (
             <Tag
-                color={COLORS[index]}
+                color={COLORS[index].base}
                 onMouseDown={onPreventMouseDown}
                 closable={closable}
                 onClose={onClose}
+                className={`${COLORS[index].hoverClass} cursor-pointer`}
                 style={{
                     margin: 2,
                     fontSize: 14,
                     lineHeight: '26px',
                 }}
             >
-                <a href={htmlUrl} target="_blank" rel="noopener noreferrer">
+                <a
+                    data-tooltip-id={label}
+                    data-tooltip-show={100}
+                    data-tooltip-place="bottom"
+                    href={htmlUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
                     {label}
                 </a>
+                <Tooltip
+                    id={label}
+                    noArrow
+                    className="p-0 opacity-100"
+                    style={{ 'box-shadow': SHADOWS[index] }}
+                >
+                    <img
+                        src={`https://gh-card.dev/repos/${label}.svg`}
+                        alt={label}
+                    />
+                </Tooltip>
             </Tag>
         );
     };
