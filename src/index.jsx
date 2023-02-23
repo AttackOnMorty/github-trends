@@ -3,6 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 
 import 'antd/dist/reset.css';
+import 'react-tooltip/dist/react-tooltip.css';
 import 'chartjs-adapter-dayjs-4/dist/chartjs-adapter-dayjs-4.esm';
 
 import App from './App';

@@ -20,11 +20,13 @@ export const getRepositories = async (value) => {
             owner: { avatar_url },
             description,
             stargazers_count,
+            html_url,
         }) => ({
             fullName: full_name,
             avatarUrl: avatar_url,
             description,
             currentStars: stargazers_count,
+            htmlUrl: html_url,
         })
     );
 };

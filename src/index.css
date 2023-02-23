@@ -9,3 +9,7 @@
 svg {
     vertical-align: baseline;
 }
+
+a {
+    @apply transition-all;
+}
