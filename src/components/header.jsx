@@ -3,8 +3,8 @@ import { Button } from 'antd';
 
 function Header() {
     return (
-        <header className="px-14 py-4 flex justify-between">
-            <h1 className="text-2xl font-mono pointer-events-none">
+        <header className="px-6 sm:px-14 py-4 flex justify-between">
+            <h1 className="text-lg sm:text-2xl font-mono pointer-events-none">
                 GitHub Trends
             </h1>
             <a
