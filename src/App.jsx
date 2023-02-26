@@ -26,7 +26,7 @@ function App() {
             <Header />
             <div className="flex flex-1 flex-col bg-[#f5f5f5]">
                 <div className="flex flex-1 justify-center">
-                    <main className="max-w-6xl px-10 pb-6 flex flex-1 flex-col">
+                    <main className="max-w-6xl px-6 pb-6 flex flex-1 flex-col">
                         <div className="my-6">
                             <SearchInput
                                 className="mb-8"
