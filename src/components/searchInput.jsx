@@ -90,7 +90,8 @@ function SearchInput({
             event.preventDefault();
             event.stopPropagation();
         };
-        const { htmlUrl } = data.find((repo) => repo.fullName === value);
+
+        const { htmlUrl } = data.find((repo) => repo.fullName === value) || {};
 
         return (
             <Tag
