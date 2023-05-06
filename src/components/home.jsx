@@ -1,4 +1,4 @@
-function HomePage() {
+function Home() {
     return (
         <div className="pt-28 sm:pt-40 flex-1 flex flex-col items-center text-2xl sm:text-3xl font-mono">
             <div>Compare GitHub repos by the history of</div>
@@ -11,4 +11,4 @@ function HomePage() {
     );
 }
 
-export default HomePage;
+export default Home;

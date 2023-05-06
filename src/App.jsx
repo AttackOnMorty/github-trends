@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { useCallback, useState } from 'react';
 import Footer from './components/footer';
 import Header from './components/header';
-import HomePage from './components/homePage';
+import Home from './components/home';
 
 import SearchInput from './components/searchInput';
 import CommitTrend from './components/trends/commits';
@@ -46,7 +46,7 @@ function App() {
                                 <ReleaseTrend repos={repos} />
                             </div>
                         ) : (
-                            <HomePage />
+                            <Home />
                         )}
                     </main>
                 </div>
