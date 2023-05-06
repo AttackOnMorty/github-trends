@@ -41,7 +41,7 @@ const options = {
     },
 };
 
-function ReleasesTrend({ repos }) {
+function Releases({ repos }) {
     const [data, setData] = useState();
 
     useEffect(() => {
@@ -140,4 +140,4 @@ function getDataBy(data, repos) {
     }
 }
 
-export default ReleasesTrend;
+export default Releases;

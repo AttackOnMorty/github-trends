@@ -5,9 +5,9 @@ import Header from './components/header';
 import HomePage from './components/homePage';
 
 import SearchInput from './components/searchInput';
-import CommitTrend from './components/trends/commitTrend';
-import ReleaseTrend from './components/trends/releaseTrend';
-import StarTrend from './components/trends/starTrend';
+import CommitTrend from './components/trends/commits';
+import ReleaseTrend from './components/trends/releases';
+import StarTrend from './components/trends/stars';
 
 function App() {
     const [repos, setRepos] = useState([]);

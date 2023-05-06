@@ -26,7 +26,7 @@ const options = {
     },
 };
 
-function StarsTrend({ repos }) {
+function Stars({ repos }) {
     const [data, setData] = useState();
 
     useEffect(() => {
@@ -153,4 +153,4 @@ function getDataBy(dates, transformedRepos) {
     }
 }
 
-export default StarsTrend;
+export default Stars;
