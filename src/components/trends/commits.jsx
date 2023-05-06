@@ -56,7 +56,10 @@ function Commits({ repos }) {
                 <div className="flex items-center">
                     <Commit className="mr-1 inline fill-green-600" />
                     <span>Commits </span>
-                    <Tooltip title="Last 52 weeks">
+                    <Tooltip
+                        title="Only show records from the last 52 weeks"
+                        overlayStyle={{ maxWidth: 500 }}
+                    >
                         <QuestionCircleOutlined
                             className="ml-1 text-[#08c]"
                             style={{ fontSize: '16px' }}
