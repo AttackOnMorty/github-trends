@@ -120,7 +120,7 @@ function SearchInput({
                     id={label}
                     noArrow
                     className="p-0 opacity-100"
-                    style={{ 'box-shadow': SHADOWS[index] }}
+                    style={{ 'boxShadow': SHADOWS[index] }}
                 >
                     <img
                         src={`https://gh-card.dev/repos/${label}.svg`}
