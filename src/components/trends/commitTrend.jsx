@@ -1,3 +1,5 @@
+import { QuestionCircleOutlined } from '@ant-design/icons';
+import { Tooltip } from 'antd';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 
@@ -52,7 +54,14 @@ function CommitsTrend({ repos }) {
         <LineChart
             title={
                 <div className="flex items-center">
-                    <Commit className="mr-1 inline fill-green-600" /> Commits
+                    <Commit className="mr-1 inline fill-green-600" />
+                    <span>Commits </span>
+                    <Tooltip title="Last 52 weeks">
+                        <QuestionCircleOutlined
+                            className="ml-1 text-[#08c]"
+                            style={{ fontSize: '16px' }}
+                        />
+                    </Tooltip>
                 </div>
             }
             options={options}
