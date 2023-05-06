@@ -1,3 +1,5 @@
+import { QuestionCircleOutlined } from '@ant-design/icons';
+import { Tooltip } from 'antd';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 
@@ -55,7 +57,26 @@ function Releases({ repos }) {
         );
     }, [repos]);
 
-    return <LineChart title="🚀 Releases" options={options} data={data} />;
+    return (
+        <LineChart
+            title={
+                <div className="flex items-center">
+                    <span>🚀 Releases </span>
+                    <Tooltip
+                        title="Only show repos with release records"
+                        overlayStyle={{ maxWidth: 500 }}
+                    >
+                        <QuestionCircleOutlined
+                            className="ml-1 text-[#08c]"
+                            style={{ fontSize: '16px' }}
+                        />
+                    </Tooltip>
+                </div>
+            }
+            options={options}
+            data={data}
+        />
+    );
 }
 
 function getData({ fullName }) {
@@ -111,12 +132,14 @@ function getDataBy(data, repos) {
             const { fullName: label } = repos[i];
             const data = getDataBy(dates[i], versions[i]);
 
-            res.push({
-                label,
-                data,
-                spanGaps: true,
-                cubicInterpolationMode: 'monotone',
-            });
+            if (data.some((item) => item !== null)) {
+                res.push({
+                    label,
+                    data,
+                    spanGaps: true,
+                    cubicInterpolationMode: 'monotone',
+                });
+            }
         }
 
         return res;
