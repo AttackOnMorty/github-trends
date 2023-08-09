@@ -64,7 +64,7 @@ function Releases({ repos }) {
                     <span>🚀 Releases </span>
                     <Tooltip
                         title="Multiple versions may be released in one day, only the highest version is displayed."
-                        overlayStyle={{ maxWidth: 500 }}
+                        overlayStyle={{ maxWidth: 600 }}
                     >
                         <QuestionCircleOutlined
                             className="ml-1 text-[#08c]"
