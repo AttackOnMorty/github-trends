@@ -53,7 +53,7 @@ function Releases({ repos }) {
         }
 
         Promise.all(repos.map(getData)).then((data) =>
-            setData(getDataBy(data, repos))
+            setData(getDataBy(data, repos)),
         );
     }, [repos]);
 
@@ -63,8 +63,8 @@ function Releases({ repos }) {
                 <div className="flex items-center">
                     <span>🚀 Releases </span>
                     <Tooltip
-                        title="Only show repos with release records"
-                        overlayStyle={{ maxWidth: 500 }}
+                        title="Multiple versions may be released in one day, only the highest version is displayed."
+                        overlayStyle={{ maxWidth: 600 }}
                     >
                         <QuestionCircleOutlined
                             className="ml-1 text-[#08c]"
@@ -90,15 +90,21 @@ function getDataBy(data, repos) {
 
     const versions = data.map((versionList) =>
         versionList.map((item) => {
-            const versionString =
-                item.tagName[0] === 'v' ? item.tagName.slice(1) : item.tagName;
-            const arr = versionString.split('.').map((str) => Number(str));
-            return arr[0] * 10000 + arr[1] * 100 + arr[2];
-        })
+            const regex = /(\d+\.\d+(\.\d+)?)/;
+            const matches = item.tagName.match(regex);
+
+            if (matches) {
+                const versionNumber = matches[0];
+                const arr = versionNumber.split('.').map((str) => Number(str));
+                return arr[0] * 10000 + arr[1] * 100 + arr[2];
+            }
+
+            return null;
+        }),
     );
 
     const transformedDates = dates.map((dateList) =>
-        dateList.map((date) => dayjs(date).format(DATE_FORMAT))
+        dateList.map((date) => dayjs(date).format(DATE_FORMAT)),
     );
     const minDate = dayjs
         .min(transformedDates.map((dates) => dayjs(dates[dates.length - 1])))
