@@ -6,6 +6,7 @@ import LineChart from '../lineChart';
 
 const GITHUB_COUNT_LIMIT = 40000;
 const MAX_REQUEST_AMOUNT = 15;
+const DATE_FORMAT = 'YYYY-MM';
 
 const options = {
     scales: {
@@ -35,122 +36,107 @@ function Stars({ repos }) {
             return;
         }
 
-        const transformedRepos = repos.map(transformRepo);
+        Promise.all(repos.map(transformRepoAsync)).then((repos) => {
+            const startDate = dayjs
+                .min(repos.map((repo) => dayjs(repo.data[0].date)))
+                .format(DATE_FORMAT);
+            const totalMonths = dayjs().diff(startDate, 'month');
 
-        Promise.all(transformedRepos.map(getDate)).then((dates) =>
-            setData(getDataBy(dates, transformedRepos))
-        );
+            const labels = getLabels(totalMonths);
+            const datasets = getDatasets(repos, labels);
+
+            setData({
+                labels,
+                datasets,
+            });
+        });
     }, [repos]);
 
     return <LineChart title="⭐ Stars" options={options} data={data} />;
 }
 
-function transformRepo(repo) {
-    const { fullName, currentStars } = repo;
-    const pages = getPagesBy(currentStars);
+async function transformRepoAsync({ fullName, currentStars }) {
+    const [owner, repo] = fullName.split('/');
+    const pages = getPages(currentStars);
+
+    const data = await Promise.all(
+        pages.map(async (page) => {
+            const date = await getStargazerFirstStaredAt({
+                owner,
+                repo,
+                page,
+            });
+
+            return {
+                date: dayjs(date).format(DATE_FORMAT),
+                stars: page,
+            };
+        }),
+    );
+
+    data.push({
+        date: dayjs().format(DATE_FORMAT),
+        stars: currentStars,
+    });
 
     return {
         fullName,
-        pages,
-        currentStars,
+        data,
     };
-
-    function getPagesBy(currentStars) {
-        const res = [];
-        let index = 1;
-
-        const count =
-            currentStars > GITHUB_COUNT_LIMIT
-                ? GITHUB_COUNT_LIMIT
-                : currentStars;
-        const interval = Math.floor(count / MAX_REQUEST_AMOUNT);
-
-        res.push(index);
-
-        for (let i = 0; i < MAX_REQUEST_AMOUNT; i++) {
-            index += interval;
-            res.push(index <= count ? index : count);
-        }
-
-        return res;
-    }
 }
 
-function getDate({ fullName, pages }) {
-    const [owner, repo] = fullName.split('/');
-    return Promise.all(
-        pages.map((page) => getStargazerFirstStaredAt({ owner, repo, page }))
-    );
+function getPages(currentStars) {
+    const res = [];
+    let index = 1;
+
+    const count =
+        currentStars > GITHUB_COUNT_LIMIT ? GITHUB_COUNT_LIMIT : currentStars;
+    const interval = Math.floor(count / MAX_REQUEST_AMOUNT);
+
+    res.push(index);
+
+    for (let i = 0; i < MAX_REQUEST_AMOUNT; i++) {
+        index += interval;
+        res.push(index <= count ? index : count);
+    }
+
+    return res;
 }
 
-function getDataBy(dates, transformedRepos) {
-    const DATE_FORMAT = 'YYYY-MM';
-    const transformedDates = dates.map((dateList) =>
-        dateList.map((date) => dayjs(date).format(DATE_FORMAT))
-    );
-    const minDate = dayjs
-        .min(transformedDates.map((dates) => dayjs(dates[0])))
-        .format(DATE_FORMAT);
-    const totalMonths = dayjs().diff(minDate, 'month');
+function getLabels(totalMonths) {
+    const res = [];
+    let current = dayjs().format(DATE_FORMAT);
 
-    const labels = getLabels();
-    const datasets = getDatasetsBy(transformedRepos, transformedDates);
-
-    return {
-        labels,
-        datasets,
-    };
-
-    function getLabels() {
-        const res = [];
-        let current = minDate;
-
-        for (let i = 0; i < totalMonths; i++) {
-            res.push(current);
-            current = dayjs(current).add(1, 'month').format(DATE_FORMAT);
-        }
-
-        res.push(dayjs().format(DATE_FORMAT));
-
-        return res;
+    // NOTE: using <= to include current month
+    for (let i = 0; i <= totalMonths; i++) {
+        res.unshift(dayjs(current).format(DATE_FORMAT));
+        current = dayjs(current).add(-1, 'month').format(DATE_FORMAT);
     }
 
-    function getDatasetsBy(repos, dates) {
-        const res = [];
+    return res;
+}
 
-        for (let i = 0; i < repos.length; i++) {
-            const { fullName, pages, currentStars } = repos[i];
-            const data = getDataBy(dates[i], pages, currentStars);
+function getDatasets(repos, labels) {
+    return repos.map(({ fullName, data }) => ({
+        label: fullName,
+        data: getData(data, labels),
+        spanGaps: true,
+        cubicInterpolationMode: 'monotone',
+    }));
+}
 
-            res.push({
-                label: fullName,
-                data,
-                spanGaps: true,
-                cubicInterpolationMode: 'monotone',
-            });
-        }
+function getData(data, labels) {
+    const res = [];
 
-        return res;
+    const dates = data.map((item) => item.date);
+    const stars = data.map((item) => item.stars);
+
+    for (let i = 0; i < labels.length; i++) {
+        const index = dates.indexOf(labels[i]);
+        res.push(index === -1 ? null : stars[index]);
     }
 
-    function getDataBy(dates, stars, currentStars) {
-        const res = [];
-        let current = minDate;
-
-        for (let i = 0; i < totalMonths; i++) {
-            if (dates.includes(current)) {
-                const index = dates.indexOf(current);
-                res.push(stars[index]);
-            } else {
-                res.push(null);
-            }
-            current = dayjs(current).add(1, 'month').format(DATE_FORMAT);
-        }
-
-        res.push(currentStars);
-
-        return res;
-    }
+    return res;
 }
 
 export default Stars;
