@@ -6,6 +6,8 @@ import { useEffect, useState } from 'react';
 import { getReleases } from '../../api';
 import LineChart from '../lineChart';
 
+const DATE_FORMAT = 'YYYY-MM-DD';
+
 const options = {
     scales: {
         x: {
@@ -52,9 +54,20 @@ function Releases({ repos }) {
             return;
         }
 
-        Promise.all(repos.map(getData)).then((data) =>
-            setData(getDataBy(data, repos)),
-        );
+        Promise.all(repos.map(transformDataAsync)).then((repos) => {
+            const minDate = dayjs
+                .min(repos.map((repo) => dayjs(repo.releases[0].publishedAt)))
+                .format(DATE_FORMAT);
+            const totalDays = dayjs().diff(minDate, 'day');
+
+            const labels = getLabels(totalDays);
+            const datasets = getDatasets(repos, labels);
+
+            setData({
+                labels,
+                datasets,
+            });
+        });
     }, [repos]);
 
     return (
@@ -79,94 +92,71 @@ function Releases({ repos }) {
     );
 }
 
-function getData({ fullName }) {
+async function transformDataAsync({ fullName }) {
     const [owner, repo] = fullName.split('/');
-    return getReleases({ owner, repo });
-}
-
-function getDataBy(data, repos) {
-    const DATE_FORMAT = 'YYYY-MM-DD';
-    const dates = data.map((item) => item.map((item) => item.publishedAt));
-
-    const versions = data.map((versionList) =>
-        versionList.map((item) => {
-            const regex = /(\d+\.\d+(\.\d+)?)/;
-            const matches = item.tagName.match(regex);
-
-            if (matches) {
-                const versionNumber = matches[0];
-                const arr = versionNumber.split('.').map((str) => Number(str));
-                return arr[0] * 10000 + arr[1] * 100 + arr[2];
-            }
-
-            return null;
-        }),
-    );
-
-    const transformedDates = dates.map((dateList) =>
-        dateList.map((date) => dayjs(date).format(DATE_FORMAT)),
-    );
-    const minDate = dayjs
-        .min(transformedDates.map((dates) => dayjs(dates[dates.length - 1])))
-        .format(DATE_FORMAT);
-    const totalDays = dayjs().diff(minDate, 'day');
-
-    const labels = getLabels();
-    const datasets = getDatasetsBy(repos, transformedDates);
+    const releases = await getReleases({ owner, repo });
 
     return {
-        labels,
-        datasets,
+        fullName,
+        releases: releases.reverse().map(({ tagName, publishedAt }) => ({
+            tagName: transformTagName(tagName),
+            publishedAt: transformDate(publishedAt),
+        })),
     };
+}
 
-    function getLabels() {
-        const res = [];
-        let current = minDate;
+function transformTagName(tagName) {
+    const regex = /(\d+\.\d+(\.\d+)?)/;
+    const matches = tagName.match(regex);
 
-        for (let i = 0; i < totalDays; i++) {
-            res.push(current);
-            current = dayjs(current).add(1, 'day').format(DATE_FORMAT);
-        }
-
-        return res;
+    if (!matches) {
+        return null;
     }
 
-    function getDatasetsBy(repos, dates) {
-        const res = [];
+    const versionNumber = matches[0];
+    const arr = versionNumber.split('.').map((str) => Number(str));
 
-        for (let i = 0; i < repos.length; i++) {
-            const { fullName: label } = repos[i];
-            const data = getDataBy(dates[i], versions[i]);
+    return arr[0] * 10000 + arr[1] * 100 + arr[2];
+}
 
-            if (data.some((item) => item !== null)) {
-                res.push({
-                    label,
-                    data,
-                    spanGaps: true,
-                    cubicInterpolationMode: 'monotone',
-                });
-            }
-        }
+function transformDate(date) {
+    return dayjs(date).format(DATE_FORMAT);
+}
 
-        return res;
+function getLabels(totalDays) {
+    const res = [];
+    let current = dayjs().format(DATE_FORMAT);
+
+    // NOTE: using <= to include today
+    for (let i = 0; i <= totalDays; i++) {
+        res.unshift(current);
+        current = dayjs(current).add(-1, 'day').format(DATE_FORMAT);
     }
 
-    function getDataBy(dates, versions) {
-        const res = [];
-        let current = minDate;
+    return res;
+}
 
-        for (let i = 0; i < totalDays; i++) {
-            if (dates.includes(current)) {
-                const index = dates.indexOf(current);
-                res.push(versions[index]);
-            } else {
-                res.push(null);
-            }
-            current = dayjs(current).add(1, 'day').format(DATE_FORMAT);
-        }
+function getDatasets(repos, labels) {
+    return repos.map(({ fullName, releases }) => ({
+        label: fullName,
+        data: getData(releases, labels),
+        spanGaps: true,
+        cubicInterpolationMode: 'monotone',
+    }));
+}
 
-        return res;
+function getData(releases, labels) {
+    const res = [];
+
+    const dates = releases.map((release) => release.publishedAt);
+    const versions = releases.map((release) => release.tagName);
+
+    for (let i = 0; i < labels.length; i++) {
+        const index = dates.indexOf(labels[i]);
+        res.push(index === -1 ? null : versions[index]);
     }
+
+    return res;
 }
 
 export default Releases;
