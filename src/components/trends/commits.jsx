@@ -3,7 +3,7 @@ import { Tooltip } from 'antd';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 
-import { getCommitCountWeekly } from '../../api';
+import { getCommits } from '../../api';
 import { ReactComponent as Commit } from '../../assets/commit.svg';
 import LineChart from '../lineChart';
 
@@ -45,9 +45,16 @@ function Commits({ repos }) {
             return;
         }
 
-        Promise.all(repos.map(getData)).then((data) =>
-            setData(getDataBy(data, repos))
-        );
+        Promise.all(repos.map(transformRepoAsync)).then((repos) => {
+            const totalWeeks = repos[0].commits.length;
+            const labels = getLabels(totalWeeks);
+            const datasets = getDatasets(repos);
+
+            setData({
+                labels,
+                datasets,
+            });
+        });
     }, [repos]);
 
     return (
@@ -57,7 +64,7 @@ function Commits({ repos }) {
                     <Commit className="mr-1 inline fill-green-600" />
                     <span>Commits </span>
                     <Tooltip
-                        title="Only show records from the last 52 weeks"
+                        title="Only show weekly commits from the past year"
                         overlayStyle={{ maxWidth: 500 }}
                     >
                         <QuestionCircleOutlined
@@ -73,47 +80,35 @@ function Commits({ repos }) {
     );
 }
 
-function getData({ fullName }) {
+async function transformRepoAsync({ fullName }) {
     const [owner, repo] = fullName.split('/');
-    return getCommitCountWeekly({ owner, repo });
-}
-
-function getDataBy(data, repos) {
-    const labels = getLabels();
-    const datasets = getDatasets();
+    const commits = await getCommits({ owner, repo });
 
     return {
-        labels,
-        datasets,
+        fullName,
+        commits,
     };
+}
 
-    function getLabels() {
-        const res = [];
-        const totalWeeks = data[0].length;
-        let current = dayjs().weekday(0);
+function getLabels(totalWeeks) {
+    const res = [];
+    let current = dayjs().weekday(0);
 
-        for (let i = 0; i < totalWeeks; i++) {
-            res.unshift(current.format());
-            current = current.weekday(-7);
-        }
-
-        return res;
+    for (let i = 0; i < totalWeeks; i++) {
+        res.unshift(current.format());
+        current = current.weekday(-7);
     }
 
-    function getDatasets() {
-        const res = [];
+    return res;
+}
 
-        for (let i = 0; i < repos.length; i++) {
-            res.push({
-                label: repos[i].fullName,
-                data: data[i],
-                spanGaps: true,
-                cubicInterpolationMode: 'monotone',
-            });
-        }
-
-        return res;
-    }
+function getDatasets(repos) {
+    return repos.map(({ fullName, commits }) => ({
+        label: fullName,
+        data: commits,
+        spanGaps: true,
+        cubicInterpolationMode: 'monotone',
+    }));
 }
 
 export default Commits;

@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { Octokit } from 'octokit';
 
 const octokit = new Octokit({
@@ -27,7 +26,7 @@ export const getRepositories = async (value) => {
             description,
             currentStars: stargazers_count,
             htmlUrl: html_url,
-        })
+        }),
     );
 };
 
@@ -50,14 +49,14 @@ export const getStargazerFirstStaredAt = async (options) => {
     return res.data[0]?.starred_at;
 };
 
-export const getCommitCountWeekly = async (options) => {
+export const getCommits = async (options) => {
     const { owner, repo } = options;
     const res = await octokit.request(
         'GET /repos/{owner}/{repo}/stats/participation',
         {
             owner,
             repo,
-        }
+        },
     );
 
     if (res.status !== 200) {
@@ -84,7 +83,7 @@ export const getReleases = async (options) => {
                 repo,
                 per_page: 100,
                 page,
-            }
+            },
         );
 
         if (res.status !== 200 || res.data.length === 0) {
