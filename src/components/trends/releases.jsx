@@ -54,13 +54,8 @@ function Releases({ repos }) {
             return;
         }
 
-        Promise.all(repos.map(transformDataAsync)).then((repos) => {
-            const minDate = dayjs
-                .min(repos.map((repo) => dayjs(repo.releases[0].publishedAt)))
-                .format(DATE_FORMAT);
-            const totalDays = dayjs().diff(minDate, 'day');
-
-            const labels = getLabels(totalDays);
+        Promise.all(repos.map(transformRepoAsync)).then((repos) => {
+            const labels = getLabels(repos);
             const datasets = getDatasets(repos, labels);
 
             setData({
@@ -92,17 +87,21 @@ function Releases({ repos }) {
     );
 }
 
-async function transformDataAsync({ fullName }) {
+async function transformRepoAsync({ fullName }) {
     const [owner, repo] = fullName.split('/');
     const releases = await getReleases({ owner, repo });
 
     return {
         fullName,
-        releases: releases.reverse().map(({ tagName, publishedAt }) => ({
-            tagName: transformTagName(tagName),
-            publishedAt: transformDate(publishedAt),
-        })),
+        releases: transformReleases(releases),
     };
+}
+
+function transformReleases(releases) {
+    return releases.reverse().map(({ tagName, publishedAt }) => ({
+        tagName: transformTagName(tagName),
+        publishedAt: transformDate(publishedAt),
+    }));
 }
 
 function transformTagName(tagName) {
@@ -123,7 +122,12 @@ function transformDate(date) {
     return dayjs(date).format(DATE_FORMAT);
 }
 
-function getLabels(totalDays) {
+function getLabels(repos) {
+    const minDate = dayjs
+        .min(repos.map((repo) => dayjs(repo.releases[0].publishedAt)))
+        .format(DATE_FORMAT);
+    const totalDays = dayjs().diff(minDate, 'day');
+
     const res = [];
     let current = dayjs().format(DATE_FORMAT);
 

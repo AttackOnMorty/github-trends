@@ -37,12 +37,7 @@ function Stars({ repos }) {
         }
 
         Promise.all(repos.map(transformRepoAsync)).then((repos) => {
-            const startDate = dayjs
-                .min(repos.map((repo) => dayjs(repo.data[0].date)))
-                .format(DATE_FORMAT);
-            const totalMonths = dayjs().diff(startDate, 'month');
-
-            const labels = getLabels(totalMonths);
+            const labels = getLabels(repos);
             const datasets = getDatasets(repos, labels);
 
             setData({
@@ -103,7 +98,12 @@ function getPages(currentStars) {
     return res;
 }
 
-function getLabels(totalMonths) {
+function getLabels(repos) {
+    const startDate = dayjs
+        .min(repos.map((repo) => dayjs(repo.data[0].date)))
+        .format(DATE_FORMAT);
+    const totalMonths = dayjs().diff(startDate, 'month');
+
     const res = [];
     let current = dayjs().format(DATE_FORMAT);
 
