@@ -160,7 +160,7 @@ function getData(releases, labels) {
     const versions = releases.map((release) => release.tagName);
 
     for (let i = 0; i < labels.length; i++) {
-        const index = dates.indexOf(labels[i]);
+        const index = dates.lastIndexOf(labels[i]);
         res.push(index === -1 ? null : versions[index]);
     }
 
