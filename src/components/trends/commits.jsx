@@ -64,7 +64,7 @@ function Commits({ repos }) {
                     <Commit className="mr-1 inline fill-green-600" />
                     <span>Commits </span>
                     <Tooltip
-                        title="Only show weekly commits from the past year"
+                        title="Only show weekly commits from the past year."
                         overlayStyle={{ maxWidth: 500 }}
                     >
                         <QuestionCircleOutlined
