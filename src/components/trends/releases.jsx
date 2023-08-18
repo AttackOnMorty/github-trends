@@ -18,8 +18,12 @@ const options = {
         },
         y: {
             ticks: {
-                stepSize: 10000,
+                precision: 0,
                 callback(value) {
+                    if (value > 0 && value < 10000) {
+                        return 1;
+                    }
+
                     return value / 10000;
                 },
             },
