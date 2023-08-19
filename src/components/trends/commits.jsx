@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 
 import { getCommits } from '../../api';
-import { ReactComponent as Commit } from '../../assets/commit.svg';
+import { ReactComponent as CommitIcon } from '../../assets/commit.svg';
 import LineChart from '../lineChart';
 
 const options = {
@@ -61,7 +61,7 @@ function Commits({ repos }) {
         <LineChart
             title={
                 <div className="flex items-center">
-                    <Commit className="mr-1 inline fill-green-600" />
+                    <CommitIcon className="mr-1 inline fill-green-600" />
                     <span>Commits </span>
                     <Tooltip
                         title="Only show weekly commits from the past year."
