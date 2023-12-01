@@ -1,6 +1,7 @@
 import { GithubOutlined } from '@ant-design/icons';
-import { Button } from 'antd';
+import { Button, Tooltip } from 'antd';
 
+import GitHubRanking from '../assets/github-ranking.png';
 import Logo from '../assets/logo.png';
 
 function Header() {
@@ -12,15 +13,32 @@ function Header() {
                     GitHub Trends
                 </h1>
             </div>
-            <a
-                href="https://github.com/AttackOnMorty/github-trends"
-                target="_black"
-                rel="noreferrer"
-            >
-                <Button type="text">
-                    <GithubOutlined className="text-xl" />
-                </Button>
-            </a>
+            <div className="flex items-center">
+                <a
+                    href="https://www.github-ranking.dev/"
+                    target="_black"
+                    rel="noreferrer"
+                >
+                    <Tooltip title="Search top repos, devs and orgs via GitHub Ranking">
+                        <Button type="text">
+                            <img
+                                src={GitHubRanking}
+                                alt="GitHub Ranking"
+                                style={{ width: 20, height: 20 }}
+                            />
+                        </Button>
+                    </Tooltip>
+                </a>
+                <a
+                    href="https://github.com/AttackOnMorty/github-trends"
+                    target="_black"
+                    rel="noreferrer"
+                >
+                    <Button type="text">
+                        <GithubOutlined className="text-xl" />
+                    </Button>
+                </a>
+            </div>
         </header>
     );
 }
