@@ -71,6 +71,7 @@ export const getReleases = async (options) => {
     const result = [];
     let page = 1;
 
+    // eslint-disable-next-line no-constant-condition
     while (true) {
         const { owner, repo } = options;
         // eslint-disable-next-line no-await-in-loop
