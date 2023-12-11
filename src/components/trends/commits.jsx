@@ -1,5 +1,3 @@
-import { QuestionCircleOutlined } from '@ant-design/icons';
-import { Tooltip } from 'antd';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 
@@ -62,16 +60,7 @@ function Commits({ repos }) {
             title={
                 <div className="flex items-center">
                     <CommitIcon className="mr-1 inline fill-green-600" />
-                    <span>Commits </span>
-                    <Tooltip
-                        title="Only show weekly commits from the past year."
-                        overlayStyle={{ maxWidth: 500 }}
-                    >
-                        <QuestionCircleOutlined
-                            className="ml-1 text-[#08c]"
-                            style={{ fontSize: '16px' }}
-                        />
-                    </Tooltip>
+                    <span>Commits</span>
                 </div>
             }
             options={options}

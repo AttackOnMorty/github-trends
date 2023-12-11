@@ -1,5 +1,3 @@
-import { QuestionCircleOutlined } from '@ant-design/icons';
-import { Tooltip } from 'antd';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 
@@ -73,16 +71,7 @@ function Releases({ repos }) {
         <LineChart
             title={
                 <div className="flex items-center">
-                    <span>🚀 Releases </span>
-                    <Tooltip
-                        title="Multiple versions may be released in one day, only the highest version is displayed."
-                        overlayStyle={{ maxWidth: 600 }}
-                    >
-                        <QuestionCircleOutlined
-                            className="ml-1 text-[#08c]"
-                            style={{ fontSize: '16px' }}
-                        />
-                    </Tooltip>
+                    <span>🚀 Releases</span>
                 </div>
             }
             options={options}
