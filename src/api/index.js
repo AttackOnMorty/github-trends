@@ -69,14 +69,11 @@ export const getCommits = async (options) => {
 
 export const getReleases = async (options) => {
     const result = [];
-    const page = 1;
+    let page = 1;
 
-    await getReleasesBy(page);
-
-    return result;
-
-    async function getReleasesBy(page) {
+    while (true) {
         const { owner, repo } = options;
+        // eslint-disable-next-line no-await-in-loop
         const res = await octokit.request(
             'GET /repos/{owner}/{repo}/releases',
             {
@@ -88,7 +85,7 @@ export const getReleases = async (options) => {
         );
 
         if (res.status !== 200 || res.data.length === 0) {
-            return;
+            break;
         }
 
         const mappedData = res.data.map(({ tag_name, published_at }) => ({
@@ -97,6 +94,9 @@ export const getReleases = async (options) => {
         }));
 
         result.push(...mappedData);
-        await getReleasesBy(page + 1);
+
+        page++;
     }
+
+    return result;
 };
