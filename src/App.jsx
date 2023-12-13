@@ -5,9 +5,9 @@ import Header from './components/header';
 import Home from './components/home';
 
 import SearchInput from './components/searchInput';
-import CommitTrend from './components/trends/commits';
-import ReleaseTrend from './components/trends/releases';
-import StarTrend from './components/trends/stars';
+import Commits from './components/trends/commits';
+import Releases from './components/trends/releases';
+import Stars from './components/trends/stars';
 
 function App() {
     const [repos, setRepos] = useState([]);
@@ -41,9 +41,9 @@ function App() {
                         </div>
                         {repos.length !== 0 ? (
                             <div className="grid grid-rows-3 grid-cols-1 gap-8 flex-1">
-                                <StarTrend repos={repos} />
-                                <CommitTrend repos={repos} />
-                                <ReleaseTrend repos={repos} />
+                                <Stars repos={repos} />
+                                <Commits repos={repos} />
+                                <Releases repos={repos} />
                             </div>
                         ) : (
                             <Home />
