@@ -9,133 +9,133 @@ const MAX_REQUEST_AMOUNT = 20;
 const DATE_FORMAT = 'YYYY-MM';
 
 const options = {
-    scales: {
-        x: {
-            time: {
-                unit: 'year',
-                tooltipFormat: 'MMM YYYY',
-            },
-        },
-        y: {
-            ticks: {
-                callback(value) {
-                    return value < 1000 ? value : `${value / 1000}k`;
-                },
-            },
-        },
+  scales: {
+    x: {
+      time: {
+        unit: 'year',
+        tooltipFormat: 'MMM YYYY',
+      },
     },
+    y: {
+      ticks: {
+        callback(value) {
+          return value < 1000 ? value : `${value / 1000}k`;
+        },
+      },
+    },
+  },
 };
 
 function Stars({ repos }) {
-    const [data, setData] = useState();
+  const [data, setData] = useState();
 
-    useEffect(() => {
-        if (repos.length === 0) {
-            setData(null);
-            return;
-        }
+  useEffect(() => {
+    if (repos.length === 0) {
+      setData(null);
+      return;
+    }
 
-        Promise.all(repos.map(transformRepoAsync)).then((repos) => {
-            const labels = getLabels(repos);
-            const datasets = getDatasets(repos, labels);
+    Promise.all(repos.map(transformRepoAsync)).then((repos) => {
+      const labels = getLabels(repos);
+      const datasets = getDatasets(repos, labels);
 
-            setData({
-                labels,
-                datasets,
-            });
-        });
-    }, [repos]);
+      setData({
+        labels,
+        datasets,
+      });
+    });
+  }, [repos]);
 
-    return <LineChart title="⭐ Stars" options={options} data={data} />;
+  return <LineChart title="⭐ Stars" options={options} data={data} />;
 }
 
 async function transformRepoAsync({ fullName, currentStars }) {
-    const [owner, repo] = fullName.split('/');
-    const pages = getPages(currentStars);
+  const [owner, repo] = fullName.split('/');
+  const pages = getPages(currentStars);
 
-    const data = await Promise.all(
-        pages.map(async (page) => {
-            const date = await getStargazerFirstStaredAt({
-                owner,
-                repo,
-                page,
-            });
+  const data = await Promise.all(
+    pages.map(async (page) => {
+      const date = await getStargazerFirstStaredAt({
+        owner,
+        repo,
+        page,
+      });
 
-            return {
-                date: dayjs(date).format(DATE_FORMAT),
-                stars: page,
-            };
-        }),
-    );
+      return {
+        date: dayjs(date).format(DATE_FORMAT),
+        stars: page,
+      };
+    }),
+  );
 
-    data.push({
-        date: dayjs().format(DATE_FORMAT),
-        stars: currentStars,
-    });
+  data.push({
+    date: dayjs().format(DATE_FORMAT),
+    stars: currentStars,
+  });
 
-    return {
-        fullName,
-        data,
-    };
+  return {
+    fullName,
+    data,
+  };
 }
 
 function getPages(currentStars) {
-    const res = [];
-    let index = 1;
+  const res = [];
+  let index = 1;
 
-    const count =
-        currentStars > GITHUB_COUNT_LIMIT ? GITHUB_COUNT_LIMIT : currentStars;
-    const interval = Math.floor(count / MAX_REQUEST_AMOUNT);
+  const count =
+    currentStars > GITHUB_COUNT_LIMIT ? GITHUB_COUNT_LIMIT : currentStars;
+  const interval = Math.floor(count / MAX_REQUEST_AMOUNT);
 
-    res.push(index);
+  res.push(index);
 
-    for (let i = 0; i < MAX_REQUEST_AMOUNT; i++) {
-        index += interval;
-        res.push(index <= count ? index : count);
-    }
+  for (let i = 0; i < MAX_REQUEST_AMOUNT; i++) {
+    index += interval;
+    res.push(index <= count ? index : count);
+  }
 
-    return res;
+  return res;
 }
 
 function getLabels(repos) {
-    const startDate = dayjs
-        .min(repos.map((repo) => dayjs(repo.data[0].date)))
-        .format(DATE_FORMAT);
-    const totalMonths = dayjs().diff(startDate, 'month');
+  const startDate = dayjs
+    .min(repos.map((repo) => dayjs(repo.data[0].date)))
+    .format(DATE_FORMAT);
+  const totalMonths = dayjs().diff(startDate, 'month');
 
-    const res = [];
-    let current = dayjs().format(DATE_FORMAT);
+  const res = [];
+  let current = dayjs().format(DATE_FORMAT);
 
-    // NOTE: using <= to include current month
-    for (let i = 0; i <= totalMonths; i++) {
-        res.unshift(dayjs(current).format(DATE_FORMAT));
-        current = dayjs(current).add(-1, 'month').format(DATE_FORMAT);
-    }
+  // NOTE: using <= to include current month
+  for (let i = 0; i <= totalMonths; i++) {
+    res.unshift(dayjs(current).format(DATE_FORMAT));
+    current = dayjs(current).add(-1, 'month').format(DATE_FORMAT);
+  }
 
-    return res;
+  return res;
 }
 
 function getDatasets(repos, labels) {
-    return repos.map(({ fullName, data }) => ({
-        label: fullName,
-        data: getData(data, labels),
-        spanGaps: true,
-        cubicInterpolationMode: 'monotone',
-    }));
+  return repos.map(({ fullName, data }) => ({
+    label: fullName,
+    data: getData(data, labels),
+    spanGaps: true,
+    cubicInterpolationMode: 'monotone',
+  }));
 }
 
 function getData(data, labels) {
-    const res = [];
+  const res = [];
 
-    const dates = data.map((item) => item.date);
-    const stars = data.map((item) => item.stars);
+  const dates = data.map((item) => item.date);
+  const stars = data.map((item) => item.stars);
 
-    for (let i = 0; i < labels.length; i++) {
-        const index = dates.indexOf(labels[i]);
-        res.push(index === -1 ? null : stars[index]);
-    }
+  for (let i = 0; i < labels.length; i++) {
+    const index = dates.indexOf(labels[i]);
+    res.push(index === -1 ? null : stars[index]);
+  }
 
-    return res;
+  return res;
 }
 
 export default Stars;

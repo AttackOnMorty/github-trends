@@ -3,13 +3,13 @@
 @tailwind utilities;
 
 #root {
-    height: 100%;
+  height: 100%;
 }
 
 svg {
-    vertical-align: baseline;
+  vertical-align: baseline;
 }
 
 a {
-    @apply transition-all;
+  @apply transition-all;
 }
