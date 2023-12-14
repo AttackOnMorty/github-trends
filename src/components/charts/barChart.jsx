@@ -24,26 +24,26 @@ ChartJS.register(
     Tooltip,
 );
 
-const baseOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    scales: {
-        x: {
-            type: 'time',
-            stacked: true,
-        },
-        y: {
-            stacked: true,
-            ticks: {
-                precision: 0,
+function BarChart({ title, options, data }) {
+    const baseOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            x: {
+                type: 'time',
+                stacked: true,
+            },
+            y: {
+                stacked: true,
+                ticks: {
+                    precision: 0,
+                },
             },
         },
-    },
-};
+    };
 
-function BarChart({ title, options, data }) {
     return (
-        <div className="p-4 flex flex-col rounded-md shadow bg-white">
+        <div className="p-4 flex flex-col">
             <h2 className="text-xl font-medium">{title}</h2>
             {/* eslint-disable-next-line no-nested-ternary */}
             {data ? (

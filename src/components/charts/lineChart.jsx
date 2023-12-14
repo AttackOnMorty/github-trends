@@ -26,38 +26,38 @@ ChartJS.register(
     Tooltip,
 );
 
-const baseOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    scales: {
-        x: {
-            type: 'time',
-        },
-        y: {
-            min: 0,
-            ticks: {
-                precision: 0,
+function LineChart({ title, options, data }) {
+    const baseOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            x: {
+                type: 'time',
+            },
+            y: {
+                min: 0,
+                ticks: {
+                    precision: 0,
+                },
             },
         },
-    },
-    plugins: {
-        legend: {
-            labels: {
+        plugins: {
+            legend: {
+                labels: {
+                    usePointStyle: true,
+                },
+            },
+            colors: {
+                forceOverride: true,
+            },
+            tooltip: {
                 usePointStyle: true,
             },
         },
-        colors: {
-            forceOverride: true,
-        },
-        tooltip: {
-            usePointStyle: true,
-        },
-    },
-};
+    };
 
-function LineChart({ title, options, data }) {
     return (
-        <div className="p-4 flex flex-col rounded-md shadow bg-white">
+        <div className="p-4 flex flex-col">
             <h2 className="text-xl font-medium">{title}</h2>
             {/* eslint-disable-next-line no-nested-ternary */}
             {data ? (

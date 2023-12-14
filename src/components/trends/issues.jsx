@@ -77,7 +77,7 @@ function getDateRange() {
 
 function getDatasets(repos) {
     const res = [];
-    const barPercentage = repos.length === 1 ? 0.5 : 1;
+    const barPercentage = repos.length === 1 ? 0.5 : 0.8;
 
     repos.forEach(({ fullName, issues }) => {
         res.push(

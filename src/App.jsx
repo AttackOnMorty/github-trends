@@ -1,3 +1,4 @@
+import { Divider } from 'antd';
 import _ from 'lodash';
 import { useCallback, useState } from 'react';
 
@@ -25,7 +26,7 @@ function App() {
     return (
         <div className="h-full flex flex-col">
             <Header />
-            <div className="flex flex-1 flex-col bg-[#f5f5f5]">
+            <div className="flex flex-1 flex-col">
                 <div className="flex flex-1 justify-center">
                     <main className="max-w-6xl px-6 pb-6 flex flex-1 flex-col">
                         <div className="my-6">
@@ -52,6 +53,7 @@ function App() {
                         )}
                     </main>
                 </div>
+                <Divider />
                 <Footer />
             </div>
         </div>
