@@ -5,7 +5,7 @@ import { getStargazerFirstStaredAt } from '../../api';
 import LineChart from '../lineChart';
 
 const GITHUB_COUNT_LIMIT = 40000;
-const MAX_REQUEST_AMOUNT = 15;
+const MAX_REQUEST_AMOUNT = 20;
 const DATE_FORMAT = 'YYYY-MM';
 
 const options = {

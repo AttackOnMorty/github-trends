@@ -68,6 +68,7 @@ export const getCommits = async (options) => {
 
 export const getReleases = async (options) => {
     const result = [];
+    const PER_PAGE = 100;
     let page = 1;
 
     // eslint-disable-next-line no-constant-condition
@@ -79,24 +80,26 @@ export const getReleases = async (options) => {
             {
                 owner,
                 repo,
-                per_page: 100,
+                per_page: PER_PAGE,
                 page,
             },
         );
 
-        if (res.status !== 200 || res.data.length === 0) {
-            break;
+        if (res.status !== 200) {
+            return result;
         }
 
-        const mappedData = res.data.map(({ tag_name, published_at }) => ({
-            tagName: tag_name,
-            publishedAt: published_at,
-        }));
+        result.push(...res.data);
 
-        result.push(...mappedData);
+        if (res.data.length < PER_PAGE) {
+            break;
+        }
 
         page++;
     }
 
-    return result;
+    return result.map(({ tag_name, published_at }) => ({
+        tagName: tag_name,
+        publishedAt: published_at,
+    }));
 };
