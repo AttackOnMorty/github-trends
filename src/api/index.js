@@ -109,21 +109,19 @@ export const getIssues = async (options) => {
     return issues;
 };
 
-export const getCommits = async (options) => {
-    const { owner, repo } = options;
+export const getCommits = async (fullName) => {
     const res = await octokit.request(
-        'GET /repos/{owner}/{repo}/stats/participation',
-        {
-            owner,
-            repo,
-        },
+        `GET /repos/${fullName}/stats/participation`,
     );
 
     if (res.status !== 200) {
         return [];
     }
 
-    return res.data.all;
+    return {
+        name: fullName,
+        data: res.data.all,
+    };
 };
 
 export const getReleases = async (options) => {

@@ -38,16 +38,18 @@ function Commits({ repos }) {
             return;
         }
 
-        Promise.all(repos.map(transformRepoAsync)).then((repos) => {
-            const totalWeeks = repos[0].commits.length;
-            const labels = getLabels(totalWeeks);
-            const datasets = getDatasets(repos);
+        Promise.all(repos.map((repo) => getCommits(repo.fullName))).then(
+            (result) => {
+                const totalWeeks = result[0].data.length;
+                const labels = getLabels(totalWeeks);
+                const datasets = getDatasets(result);
 
-            setData({
-                labels,
-                datasets,
-            });
-        });
+                setData({
+                    labels,
+                    datasets,
+                });
+            },
+        );
     }, [repos]);
 
     return (
@@ -64,16 +66,6 @@ function Commits({ repos }) {
     );
 }
 
-async function transformRepoAsync({ fullName }) {
-    const [owner, repo] = fullName.split('/');
-    const commits = await getCommits({ owner, repo });
-
-    return {
-        fullName,
-        commits,
-    };
-}
-
 function getLabels(totalWeeks) {
     const res = [];
     let current = dayjs().weekday(0);
@@ -87,9 +79,9 @@ function getLabels(totalWeeks) {
 }
 
 function getDatasets(repos) {
-    return repos.map(({ fullName, commits }) => ({
-        label: fullName,
-        data: commits,
+    return repos.map(({ name, data }) => ({
+        label: name,
+        data,
         spanGaps: true,
         cubicInterpolationMode: 'monotone',
     }));
