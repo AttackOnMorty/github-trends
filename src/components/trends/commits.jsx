@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 
 import { getCommits } from '../../api';
