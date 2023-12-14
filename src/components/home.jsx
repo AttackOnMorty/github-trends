@@ -18,42 +18,25 @@ function Home() {
                     source projects to use
                 </p>
             </div>
-
             <Divider />
-
-            <div className=" py-4 sm:py-8 lg:py-8">
-                <p className="mt-4 text-3xl sm:text-4xl text-slate-900 font-bold tracking-tight text-center">
-                    Stars Trend
-                </p>
-                <img src={StarsTrend} alt="Stars Trend" className="mt-8" />
-            </div>
-
+            {GetTrendSection('Stars Trend', StarsTrend)}
             <Divider />
-
-            <div className="py-2 sm:py-4 lg:py-8">
-                <p className="mt-4 text-3xl sm:text-4xl text-slate-900 font-bold tracking-tight text-center">
-                    Issues Trend
-                </p>
-                <img src={IssuesTrend} alt="Stars Trend" className="mt-8" />
-            </div>
-
+            {GetTrendSection('Issues Trend', IssuesTrend)}
             <Divider />
-
-            <div className="py-2 sm:py-4 lg:py-8">
-                <p className="mt-4 text-3xl sm:text-4xl text-slate-900 font-bold tracking-tight text-center">
-                    Commits Trend
-                </p>
-                <img src={CommitsTrend} alt="Stars Trend" className="mt-8" />
-            </div>
-
+            {GetTrendSection('Commits Trend', CommitsTrend)}
             <Divider />
+            {GetTrendSection('Releases Trend', ReleasesTrend)}
+        </div>
+    );
+}
 
-            <div className="py-2 sm:py-4 lg:py-8">
-                <p className="mt-4 text-3xl sm:text-4xl text-slate-900 font-bold tracking-tight text-center">
-                    Releases Trend
-                </p>
-                <img src={ReleasesTrend} alt="Stars Trend" className="mt-8" />
-            </div>
+function GetTrendSection(title, imgSrc) {
+    return (
+        <div className="py-2 sm:py-4 lg:py-8">
+            <p className="mt-4 text-3xl sm:text-4xl text-slate-900 font-bold tracking-tight text-center">
+                {title}
+            </p>
+            <img src={imgSrc} alt="Stars Trend" className="mt-8" />
         </div>
     );
 }
