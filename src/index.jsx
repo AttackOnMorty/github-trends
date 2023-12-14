@@ -19,9 +19,10 @@ dayjs.extend(weekday);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <React.StrictMode>
-        <App />
-    </React.StrictMode>
+    // NOTE: StrictMode causes request to be sent twice
+    // <React.StrictMode>
+    <App />,
+    // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

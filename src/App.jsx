@@ -6,6 +6,7 @@ import Header from './components/header';
 import Home from './components/home';
 import SearchInput from './components/searchInput';
 import Commits from './components/trends/commits';
+import Issues from './components/trends/issues';
 import Releases from './components/trends/releases';
 import Stars from './components/trends/stars';
 
@@ -14,7 +15,7 @@ function App() {
 
     const debounce = useCallback(
         _.debounce((repos) => setRepos(repos), 300),
-        []
+        [],
     );
 
     const debouncedSetRepos = (repos) => {
@@ -40,9 +41,10 @@ function App() {
                             />
                         </div>
                         {repos.length !== 0 ? (
-                            <div className="grid grid-rows-3 grid-cols-1 gap-8 flex-1">
+                            <div className="grid grid-rows-4 grid-cols-1 gap-8 flex-1">
                                 <Stars repos={repos} />
                                 <Commits repos={repos} />
+                                <Issues repos={repos} />
                                 <Releases repos={repos} />
                             </div>
                         ) : (
