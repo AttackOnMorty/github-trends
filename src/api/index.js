@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { Octokit } from 'octokit';
 
 const octokit = new Octokit({
@@ -118,11 +119,28 @@ export const getCommits = async (fullName) => {
         return [];
     }
 
+    const data = res.data.all;
+
     return {
         name: fullName,
-        data: res.data.all,
+        result: {
+            dates: getWeekDates(data.length),
+            data,
+        },
     };
 };
+
+function getWeekDates(totalWeeks) {
+    const dates = [];
+    let currentWeek = dayjs().subtract(7, 'day');
+
+    for (let i = 0; i < totalWeeks; i++) {
+        dates.push(currentWeek.format('YYYY-MM-DD'));
+        currentWeek = currentWeek.subtract(7, 'day');
+    }
+
+    return dates.reverse();
+}
 
 export const getReleases = async (options) => {
     const result = [];

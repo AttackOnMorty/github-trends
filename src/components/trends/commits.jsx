@@ -40,8 +40,7 @@ function Commits({ repos }) {
 
         Promise.all(repos.map((repo) => getCommits(repo.fullName))).then(
             (result) => {
-                const totalWeeks = result[0].data.length;
-                const labels = getLabels(totalWeeks);
+                const labels = result[0].result.dates;
                 const datasets = getDatasets(result);
 
                 setData({
@@ -66,20 +65,8 @@ function Commits({ repos }) {
     );
 }
 
-function getLabels(totalWeeks) {
-    const res = [];
-    let current = dayjs().weekday(0);
-
-    for (let i = 0; i < totalWeeks; i++) {
-        res.unshift(current.format());
-        current = current.weekday(-7);
-    }
-
-    return res;
-}
-
-function getDatasets(repos) {
-    return repos.map(({ name, data }) => ({
+function getDatasets(result) {
+    return result.map(({ name, result: { data } }) => ({
         label: name,
         data,
         spanGaps: true,
