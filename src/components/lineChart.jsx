@@ -4,15 +4,14 @@ import {
     Chart as ChartJS,
     Colors,
     Legend,
-    LinearScale,
     LineElement,
+    LinearScale,
     PointElement,
     TimeScale,
     Title,
     Tooltip,
 } from 'chart.js';
 import { merge } from 'lodash';
-// eslint-disable-next-line import/no-unresolved
 import { Line } from 'react-chartjs-2';
 
 ChartJS.register(

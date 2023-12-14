@@ -16,10 +16,11 @@ module.exports = {
     },
     plugins: ['react'],
     rules: {
-        camelcase: 1,
+        camelcase: 0,
         'react/prop-types': 0,
         'no-plusplus': 0,
         'no-shadow': 0,
+        'no-unused-vars': 1,
         'no-use-before-define': ['error', { functions: false }],
     },
 };

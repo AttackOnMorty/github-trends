@@ -1,9 +1,9 @@
 import _ from 'lodash';
 import { useCallback, useState } from 'react';
+
 import Footer from './components/footer';
 import Header from './components/header';
 import Home from './components/home';
-
 import SearchInput from './components/searchInput';
 import Commits from './components/trends/commits';
 import Releases from './components/trends/releases';
