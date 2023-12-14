@@ -33,6 +33,7 @@ function Header() {
                     href="https://github.com/AttackOnMorty/github-trends"
                     target="_black"
                     rel="noreferrer"
+                    aria-label="Go to GitHub Ranking"
                 >
                     <Button type="text">
                         <GithubOutlined className="text-xl" />
