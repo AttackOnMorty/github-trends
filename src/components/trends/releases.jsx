@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 
 import { getReleases } from '../../api';
-import LineChart from '../lineChart';
+import LineChart from '../charts/lineChart';
 
 const DATE_FORMAT = 'YYYY-MM-DD';
 
@@ -16,7 +16,6 @@ const options = {
         },
         y: {
             ticks: {
-                precision: 0,
                 callback(value) {
                     if (value > 0 && value < 10000) {
                         return 1;

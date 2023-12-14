@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 
 import { getCommits } from '../../api';
 import { ReactComponent as CommitIcon } from '../../assets/commit.svg';
-import LineChart from '../lineChart';
+import LineChart from '../charts/lineChart';
 
 const options = {
     scales: {
@@ -11,11 +11,6 @@ const options = {
             time: {
                 unit: 'month',
                 tooltipFormat: 'MMM DD',
-            },
-        },
-        y: {
-            ticks: {
-                precision: 0,
             },
         },
     },

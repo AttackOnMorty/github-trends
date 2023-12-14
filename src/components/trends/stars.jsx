@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 
 import { getStargazerFirstStaredAt } from '../../api';
-import LineChart from '../lineChart';
+import LineChart from '../charts/lineChart';
 
 const GITHUB_COUNT_LIMIT = 40000;
 const MAX_REQUEST_AMOUNT = 20;
@@ -18,7 +18,6 @@ const options = {
         },
         y: {
             ticks: {
-                precision: 0,
                 callback(value) {
                     return value < 1000 ? value : `${value / 1000}k`;
                 },

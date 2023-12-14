@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 
 import { getIssues } from '../../api';
-import BarChart from '../barChart';
+import BarChart from '../charts/barChart';
 
 const options = {
     scales: {

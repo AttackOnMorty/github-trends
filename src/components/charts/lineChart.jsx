@@ -1,9 +1,10 @@
 import { Empty, Spin } from 'antd';
 import {
-    BarElement,
     CategoryScale,
     Chart as ChartJS,
+    Colors,
     Legend,
+    LineElement,
     LinearScale,
     PointElement,
     TimeScale,
@@ -11,34 +12,50 @@ import {
     Tooltip,
 } from 'chart.js';
 import { merge } from 'lodash';
-import { Bar } from 'react-chartjs-2';
+import { Line } from 'react-chartjs-2';
 
 ChartJS.register(
     CategoryScale,
+    Colors,
     Legend,
     LinearScale,
-    BarElement,
+    LineElement,
     PointElement,
     TimeScale,
     Title,
     Tooltip,
 );
 
-function BarChart({ title, options, data }) {
-    const baseOptions = {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-            x: {
-                type: 'time',
-                stacked: true,
-            },
-            y: {
-                stacked: true,
+const baseOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+        x: {
+            type: 'time',
+        },
+        y: {
+            min: 0,
+            ticks: {
+                precision: 0,
             },
         },
-    };
+    },
+    plugins: {
+        legend: {
+            labels: {
+                usePointStyle: true,
+            },
+        },
+        colors: {
+            forceOverride: true,
+        },
+        tooltip: {
+            usePointStyle: true,
+        },
+    },
+};
 
+function LineChart({ title, options, data }) {
     return (
         <div className="p-4 flex flex-col rounded-md shadow bg-white">
             <h2 className="text-xl font-medium">{title}</h2>
@@ -50,7 +67,7 @@ function BarChart({ title, options, data }) {
                     </div>
                 ) : (
                     <div className="h-64">
-                        <Bar
+                        <Line
                             options={merge(baseOptions, options)}
                             data={data}
                         />
@@ -65,4 +82,4 @@ function BarChart({ title, options, data }) {
     );
 }
 
-export default BarChart;
+export default LineChart;
