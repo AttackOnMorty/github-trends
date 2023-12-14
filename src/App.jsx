@@ -43,8 +43,8 @@ function App() {
                         {repos.length !== 0 ? (
                             <div className="grid grid-rows-4 grid-cols-1 gap-8 flex-1">
                                 <Stars repos={repos} />
-                                <Commits repos={repos} />
                                 <Issues repos={repos} />
+                                <Commits repos={repos} />
                                 <Releases repos={repos} />
                             </div>
                         ) : (

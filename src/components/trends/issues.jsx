@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 
 import { getIssues } from '../../api';
+import { ReactComponent as IssueIcon } from '../../assets/issue.svg';
 import BarChart from '../charts/barChart';
 
 const options = {
@@ -47,7 +48,8 @@ function Issues({ repos }) {
         <BarChart
             title={
                 <div className="flex items-center">
-                    <span>Issues</span>
+                    <IssueIcon className="mr-1 inline fill-green-600" />
+                    <span> Issues</span>
                 </div>
             }
             options={options}
@@ -75,6 +77,7 @@ function getDateRange() {
 
 function getDatasets(repos) {
     const res = [];
+    const barPercentage = repos.length === 1 ? 0.5 : 1;
 
     repos.forEach(({ fullName, issues }) => {
         res.push(
@@ -85,7 +88,7 @@ function getDatasets(repos) {
                     spanGaps: true,
                     backgroundColor: '#57A1E5',
                     hoverBackgroundColor: '#57A1E5',
-                    barPercentage: 0.7,
+                    barPercentage,
                     stack: fullName,
                 },
                 {
@@ -94,7 +97,7 @@ function getDatasets(repos) {
                     spanGaps: true,
                     backgroundColor: '#ED6E86',
                     hoverBackgroundColor: '#ED6E86',
-                    barPercentage: 0.7,
+                    barPercentage,
                     stack: fullName,
                 },
             ],
