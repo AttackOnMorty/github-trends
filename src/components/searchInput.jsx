@@ -176,7 +176,7 @@ function SearchInput({
       placeholder={placeholder}
       style={style}
       defaultActiveFirstOption={false}
-      showArrow={false}
+      suffixIcon={null}
       filterOption={false}
       tagRender={tagRender}
       onSearch={handleSearch}
