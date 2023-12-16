@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 
 import { getCommits } from '../../api';
@@ -39,7 +40,8 @@ function Commits({ repos }) {
 
     Promise.all(repos.map((repo) => getCommits(repo.fullName))).then(
       (result) => {
-        const labels = result[0].result.dates;
+        const totalWeeks = result[0].data.length;
+        const labels = getLabels(totalWeeks);
         const datasets = getDatasets(result);
 
         setData({
@@ -64,8 +66,20 @@ function Commits({ repos }) {
   );
 }
 
+function getLabels(totalWeeks) {
+  const dates = [];
+  let currentWeek = dayjs().subtract(7, 'day');
+
+  for (let i = 0; i < totalWeeks; i++) {
+    dates.push(currentWeek.format('YYYY-MM-DD'));
+    currentWeek = currentWeek.subtract(7, 'day');
+  }
+
+  return dates.reverse();
+}
+
 function getDatasets(result) {
-  return result.map(({ name, result: { data } }) => ({
+  return result.map(({ name, data }) => ({
     label: name,
     data,
     spanGaps: true,
