@@ -28,20 +28,23 @@ function Issues({ repos }) {
   const [data, setData] = useState();
 
   useEffect(() => {
-    if (repos.length === 0) {
-      setData(null);
-      return;
-    }
+    const fetchData = async () => {
+      if (repos.length === 0) {
+        setData(null);
+        return;
+      }
 
-    Promise.all(repos.map(transformRepoAsync)).then((repos) => {
-      const labels = Object.keys(repos[0].issues);
-      const datasets = getDatasets(repos);
+      const results = await Promise.all(repos.map(transformRepoAsync));
+      const labels = Object.keys(results[0].issues);
+      const datasets = getDatasets(results);
 
       setData({
         labels,
         datasets,
       });
-    });
+    };
+
+    fetchData();
   }, [repos]);
 
   return (

@@ -50,20 +50,23 @@ function Releases({ repos }) {
   const [data, setData] = useState();
 
   useEffect(() => {
-    if (repos.length === 0) {
-      setData(null);
-      return;
-    }
+    const fetchData = async () => {
+      if (repos.length === 0) {
+        setData(null);
+        return;
+      }
 
-    Promise.all(repos.map(transformRepoAsync)).then((repos) => {
-      const labels = getLabels(repos);
-      const datasets = getDatasets(repos, labels);
+      const results = await Promise.all(repos.map(transformRepoAsync));
+      const labels = getLabels(results);
+      const datasets = getDatasets(results, labels);
 
       setData({
         labels,
         datasets,
       });
-    });
+    };
+
+    fetchData();
   }, [repos]);
 
   return (

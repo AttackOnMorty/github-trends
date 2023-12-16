@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import { Octokit } from 'octokit';
 
 const octokit = new Octokit({

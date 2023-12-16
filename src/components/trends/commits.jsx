@@ -33,23 +33,26 @@ function Commits({ repos }) {
   const [data, setData] = useState();
 
   useEffect(() => {
-    if (repos.length === 0) {
-      setData(null);
-      return;
-    }
+    const fetchData = async () => {
+      if (repos.length === 0) {
+        setData(null);
+        return;
+      }
 
-    Promise.all(repos.map((repo) => getCommits(repo.fullName))).then(
-      (result) => {
-        const totalWeeks = result[0].data.length;
-        const labels = getLabels(totalWeeks);
-        const datasets = getDatasets(result);
+      const results = await Promise.all(
+        repos.map((repo) => getCommits(repo.fullName)),
+      );
+      const totalWeeks = results[0].data.length;
+      const labels = getLabels(totalWeeks);
+      const datasets = getDatasets(results);
 
-        setData({
-          labels,
-          datasets,
-        });
-      },
-    );
+      setData({
+        labels,
+        datasets,
+      });
+    };
+
+    fetchData();
   }, [repos]);
 
   return (
