@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 
-import { getCommits } from '../../api';
+import { getWeeklyCommits } from '../../api';
 import { ReactComponent as CommitIcon } from '../../assets/commit.svg';
 import LineChart from '../charts/lineChart';
 
@@ -39,9 +39,7 @@ function Commits({ repos }) {
         return;
       }
 
-      const results = await Promise.all(
-        repos.map((repo) => getCommits(repo.fullName)),
-      );
+      const results = await Promise.all(repos.map(getWeeklyCommits));
       const totalWeeks = results[0].data.length;
       const labels = getLabels(totalWeeks);
       const datasets = getDatasets(results);
@@ -81,8 +79,8 @@ function getLabels(totalWeeks) {
   return dates.reverse();
 }
 
-function getDatasets(result) {
-  return result.map(({ name, data }) => ({
+function getDatasets(results) {
+  return results.map(({ name, data }) => ({
     label: name,
     data,
     spanGaps: true,

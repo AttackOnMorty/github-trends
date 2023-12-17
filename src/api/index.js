@@ -109,7 +109,8 @@ export const getIssues = async (options) => {
   return issues;
 };
 
-export const getCommits = async (fullName) => {
+export const getWeeklyCommits = async (fullName) => {
+  // DOCS: https://docs.github.com/en/rest/metrics/statistics?apiVersion=2022-11-28#get-the-weekly-commit-count
   const res = await octokit.request(
     `GET /repos/${fullName}/stats/participation`,
   );
