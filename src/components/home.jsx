@@ -10,7 +10,7 @@ function Home() {
     <div>
       <div className="max-w-5xl mx-auto py-20 sm:py-24 lg:py-32">
         <h1 className="text-slate-900 font-extrabold text-4xl sm:text-5xl lg:text-6xl tracking-tight text-center">
-          Compare GitHub repos by the history of stars, issues, commits...
+          Compare GitHub repos by the history of stars, commits, releases...
         </h1>
         <p className="mt-6 text-lg text-slate-600 text-center max-w-3xl mx-auto">
           Help developers make informed decisions about which open source
