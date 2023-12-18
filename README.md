@@ -1,4 +1,4 @@
-# GitHub Trends &middot; [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/facebook/react/blob/main/LICENSE)
+# GitHub Trends &middot; [![CodeQL](https://github.com/AttackOnMorty/github-trends/actions/workflows/codeql.yml/badge.svg)](https://github.com/AttackOnMorty/github-trends/actions/workflows/codeql.yml) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/facebook/react/blob/main/LICENSE)
 
 Compare GitHub repos by the history of stars, issues, releases...
 
