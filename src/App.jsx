@@ -1,4 +1,6 @@
 import { Analytics } from '@vercel/analytics';
+// eslint-disable-next-line import/no-unresolved
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import { Divider } from 'antd';
 import _ from 'lodash';
 import { useCallback, useState } from 'react';
@@ -58,6 +60,7 @@ function App() {
         <Footer />
       </div>
       <Analytics />
+      <SpeedInsights />
     </div>
   );
 }
