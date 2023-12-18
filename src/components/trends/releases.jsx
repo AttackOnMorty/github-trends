@@ -118,12 +118,14 @@ function transformDate(date) {
 }
 
 function getLabels(repos) {
-  if (repos.every((repo) => repo.releases.length === 0)) {
+  const repoWithReleases = repos.filter((repo) => repo.releases.length > 0);
+
+  if (repoWithReleases.length === 0) {
     return [];
   }
 
   const minDate = dayjs
-    .min(repos.map((repo) => dayjs(repo.releases[0].publishedAt)))
+    .min(repoWithReleases.map((repo) => dayjs(repo.releases[0].publishedAt)))
     .format(DATE_FORMAT);
   const totalDays = dayjs().diff(minDate, 'day');
 
