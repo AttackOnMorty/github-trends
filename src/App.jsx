@@ -1,4 +1,4 @@
-import { Analytics } from '@vercel/analytics';
+import Analytics from '@vercel/analytics';
 // eslint-disable-next-line import/no-unresolved
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { Divider } from 'antd';
