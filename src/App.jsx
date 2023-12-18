@@ -1,5 +1,5 @@
-import Analytics from '@vercel/analytics';
-// eslint-disable-next-line import/no-unresolved
+/* eslint-disable import/no-unresolved */
+import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { Divider } from 'antd';
 import _ from 'lodash';
