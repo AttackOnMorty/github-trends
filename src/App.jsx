@@ -1,3 +1,4 @@
+import { Analytics } from '@vercel/analytics';
 import { Divider } from 'antd';
 import _ from 'lodash';
 import { useCallback, useState } from 'react';
@@ -56,6 +57,7 @@ function App() {
         <Divider />
         <Footer />
       </div>
+      <Analytics />
     </div>
   );
 }
