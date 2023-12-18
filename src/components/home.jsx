@@ -20,11 +20,11 @@ function Home() {
       <Divider />
       {GetTrendSection('Stars Trend', StarsTrend)}
       <Divider />
-      {GetTrendSection('Issues Trend', IssuesTrend)}
-      <Divider />
       {GetTrendSection('Commits Trend', CommitsTrend)}
       <Divider />
       {GetTrendSection('Releases Trend', ReleasesTrend)}
+      <Divider />
+      {GetTrendSection('Issues Trend', IssuesTrend)}
     </div>
   );
 }
