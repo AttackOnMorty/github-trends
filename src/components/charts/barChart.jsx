@@ -40,6 +40,16 @@ function BarChart({ title, options, data }) {
         },
       },
     },
+    plugins: {
+      legend: {
+        labels: {
+          usePointStyle: true,
+        },
+      },
+      tooltip: {
+        usePointStyle: true,
+      },
+    },
   };
 
   return (
