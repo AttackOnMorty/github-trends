@@ -14,7 +14,7 @@
     "chartjs-adapter-dayjs-4": "^1.2.3",
     "dayjs": "^1.11.10",
     "lodash": "^4.17.21",
-    "octokit": "^2.1.0",
+    "octokit": "^3.1.2",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
@@ -48,10 +48,10 @@
     ]
   },
   "devDependencies": {
-    "eslint": "^8.55.0",
+    "eslint": "^8.56.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.10.0",
-    "eslint-plugin-import": "^2.29.0",
+    "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-jsx-a11y": "^6.8.0",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
