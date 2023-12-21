@@ -5,6 +5,7 @@ const octokit = new Octokit({
 });
 
 export const getRepositories = async (value) => {
+  // DOCS: https://docs.github.com/en/rest/search/search?apiVersion=2022-11-28#search-repositories
   const res = await octokit.request('GET /search/repositories{?q}', {
     q: value,
     per_page: 20,
@@ -33,6 +34,7 @@ export const getRepositories = async (value) => {
 
 export const getStargazerFirstStaredAt = async (options) => {
   const { owner, repo, page } = options;
+  // DOCS: https://docs.github.com/en/rest/activity/starring?apiVersion=2022-11-28#list-stargazers
   const res = await octokit.request('GET /repos/{owner}/{repo}/stargazers', {
     headers: {
       accept: 'application/vnd.github.star+json',
@@ -68,7 +70,7 @@ export const getIssues = async (options) => {
 
   // eslint-disable-next-line no-constant-condition
   while (true) {
-    // TODO: Use total_count to do parallel requests
+    // DOCS: https://docs.github.com/en/rest/search/search?apiVersion=2022-11-28#search-repositories
     // eslint-disable-next-line no-await-in-loop
     const res = await octokit.request('GET /search/issues{?q}', {
       q: `repo:${owner}/${repo} is:issue created:${startDate}..${endDate}`,
@@ -133,6 +135,7 @@ export const getReleases = async (options) => {
   // eslint-disable-next-line no-constant-condition
   while (true) {
     const { owner, repo } = options;
+    // DOCS: https://docs.github.com/en/rest/releases/releases?apiVersion=2022-11-28#list-releases
     // eslint-disable-next-line no-await-in-loop
     const res = await octokit.request('GET /repos/{owner}/{repo}/releases', {
       owner,
