@@ -2,4 +2,4 @@
 
 Compare GitHub repos by the history of stars, issues, releases...
 
-![CleanShot 2023-12-14 at 22 36 42@2x](https://github.com/AttackOnMorty/github-trends/assets/37203901/87b7a99d-7c5c-4445-8f3f-545122a08648)
+![CleanShot 2023-12-22 at 12 27 29@2x](https://github.com/AttackOnMorty/github-trends/assets/37203901/35f5ceb2-3378-45f4-ab36-ff139043e809)
