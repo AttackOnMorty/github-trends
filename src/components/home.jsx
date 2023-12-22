@@ -22,9 +22,9 @@ function Home() {
       <Divider />
       {GetTrendSection('Commits Trend', CommitsTrend)}
       <Divider />
-      {GetTrendSection('Releases Trend', ReleasesTrend)}
-      <Divider />
       {GetTrendSection('Issues Trend', IssuesTrend)}
+      <Divider />
+      {GetTrendSection('Releases Trend', ReleasesTrend)}
     </div>
   );
 }

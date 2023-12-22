@@ -48,8 +48,8 @@ function App() {
               <div className="grid grid-rows-4 grid-cols-1 gap-8 flex-1">
                 <Stars repos={repos} />
                 <Commits repos={repos.map((repo) => repo.fullName)} />
-                <Releases repos={repos} />
                 <Issues repos={repos} />
+                <Releases repos={repos} />
               </div>
             ) : (
               <Home />
