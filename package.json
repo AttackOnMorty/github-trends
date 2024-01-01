@@ -9,7 +9,7 @@
     "@testing-library/user-event": "^14.5.1",
     "@vercel/analytics": "^1.1.1",
     "@vercel/speed-insights": "^1.0.2",
-    "antd": "^5.12.5",
+    "antd": "^5.12.6",
     "chart.js": "^4.4.1",
     "chartjs-adapter-dayjs-4": "^1.2.3",
     "dayjs": "^1.11.10",
