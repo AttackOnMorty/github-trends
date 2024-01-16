@@ -8,8 +8,8 @@
     "@testing-library/react": "^14.1.2",
     "@testing-library/user-event": "^14.5.2",
     "@vercel/analytics": "^1.1.1",
-    "@vercel/speed-insights": "^1.0.2",
-    "antd": "^5.12.8",
+    "@vercel/speed-insights": "^1.0.3",
+    "antd": "^5.13.1",
     "chart.js": "^4.4.1",
     "chartjs-adapter-dayjs-4": "^1.2.3",
     "dayjs": "^1.11.10",
@@ -19,7 +19,7 @@
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
-    "react-tooltip": "^5.25.1",
+    "react-tooltip": "^5.25.2",
     "web-vitals": "^3.5.1"
   },
   "scripts": {
@@ -56,7 +56,7 @@
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "husky": "^8.0.3",
-    "prettier": "^3.1.1",
+    "prettier": "^3.2.2",
     "tailwindcss": "^3.4.1"
   }
 }
