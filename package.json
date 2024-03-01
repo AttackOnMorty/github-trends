@@ -7,7 +7,7 @@
     "@testing-library/jest-dom": "^6.2.0",
     "@testing-library/react": "^14.1.2",
     "@testing-library/user-event": "^14.5.2",
-    "@vercel/analytics": "^1.1.1",
+    "@vercel/analytics": "^1.2.2",
     "@vercel/speed-insights": "^1.0.3",
     "antd": "^5.13.1",
     "chart.js": "^4.4.1",
